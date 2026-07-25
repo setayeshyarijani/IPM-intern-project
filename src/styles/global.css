@@ -1,0 +1,21 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  transition: background-color 0.2s ease;
+}
+
+/* Utility class for isolating LTR fragments (emails, dates, ids)
+   inside RTL text — mirrors the <Ltr> component for plain markup. */
+.ltr-isolate {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}

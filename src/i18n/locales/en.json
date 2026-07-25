@@ -1,0 +1,104 @@
+{
+  "app": { "title": "Support System" },
+  "nav": {
+    "dashboard": "Dashboard",
+    "tickets": "Tickets",
+    "profile": "Profile",
+    "users": "Users",
+    "reports": "Reports",
+    "logout": "Logout"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "fullName": "Full name",
+    "loginTitle": "Sign in to your account",
+    "registerTitle": "Create an account",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "loginSuccess": "Signed in successfully",
+    "registerSuccess": "Account created successfully",
+    "invalidCredentials": "Invalid email or password",
+    "emailExists": "This email is already registered",
+    "passwordMismatch": "Passwords do not match",
+    "adminLogin": "Admin sign in"
+  },
+  "dashboard": {
+    "welcome": "Welcome, {{name}}",
+    "accountStatus": "Account status",
+    "active": "Active",
+    "role": "Role",
+    "joined": "Joined",
+    "recentItems": "Data fetched from the server"
+  },
+  "table": {
+    "search": "Search...",
+    "loading": "Loading...",
+    "empty": "No data to display",
+    "error": "Failed to load data",
+    "retry": "Retry",
+    "totalItems": "{{total}} items total",
+    "rowsPerPage": "Rows per page"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "newTicket": "New ticket",
+    "subject": "Subject",
+    "status": "Status",
+    "priority": "Priority",
+    "createdAt": "Created at",
+    "description": "Description",
+    "submit": "Submit",
+    "reply": "Reply",
+    "replyPlaceholder": "Write your reply...",
+    "changeStatus": "Change status",
+    "open": "Open",
+    "inProgress": "In progress",
+    "closed": "Closed",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "backToList": "Back to list",
+    "createSuccess": "Ticket created successfully",
+    "replySuccess": "Reply submitted",
+    "statusUpdated": "Ticket status updated",
+    "conversation": "Conversation"
+  },
+  "users": {
+    "title": "User management",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "createdAt": "Joined",
+    "user": "User",
+    "admin": "Admin",
+    "actions": "Actions",
+    "disable": "Disable",
+    "enable": "Enable",
+    "disabled": "Disabled"
+  },
+  "reports": {
+    "title": "Reports & statistics",
+    "totalUsers": "Total users",
+    "totalTickets": "Total tickets",
+    "openTickets": "Open tickets",
+    "closedTickets": "Closed tickets"
+  },
+  "profile": {
+    "title": "User profile",
+    "editInfo": "Edit information",
+    "save": "Save changes",
+    "updateSuccess": "Profile updated successfully"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "yes": "Yes",
+    "no": "No",
+    "language": "Language"
+  }
+}

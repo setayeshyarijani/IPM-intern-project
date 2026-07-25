@@ -1,0 +1,104 @@
+{
+  "app": { "title": "سامانه پشتیبانی" },
+  "nav": {
+    "dashboard": "داشبورد",
+    "tickets": "تیکت‌ها",
+    "profile": "پروفایل",
+    "users": "کاربران",
+    "reports": "گزارش‌ها",
+    "logout": "خروج"
+  },
+  "auth": {
+    "login": "ورود",
+    "register": "ثبت‌نام",
+    "email": "ایمیل",
+    "password": "رمز عبور",
+    "confirmPassword": "تکرار رمز عبور",
+    "fullName": "نام و نام خانوادگی",
+    "loginTitle": "ورود به سامانه",
+    "registerTitle": "ایجاد حساب کاربری",
+    "noAccount": "حساب کاربری ندارید؟",
+    "haveAccount": "حساب کاربری دارید؟",
+    "loginSuccess": "ورود با موفقیت انجام شد",
+    "registerSuccess": "ثبت‌نام با موفقیت انجام شد",
+    "invalidCredentials": "ایمیل یا رمز عبور اشتباه است",
+    "emailExists": "این ایمیل قبلاً ثبت شده است",
+    "passwordMismatch": "رمز عبور و تکرار آن یکسان نیستند",
+    "adminLogin": "ورود مدیر سیستم"
+  },
+  "dashboard": {
+    "welcome": "خوش آمدید، {{name}}",
+    "accountStatus": "وضعیت حساب کاربری",
+    "active": "فعال",
+    "role": "نقش",
+    "joined": "تاریخ عضویت",
+    "recentItems": "اطلاعات دریافت‌شده از سرور"
+  },
+  "table": {
+    "search": "جستجو...",
+    "loading": "در حال بارگذاری...",
+    "empty": "داده‌ای برای نمایش وجود ندارد",
+    "error": "خطا در دریافت اطلاعات",
+    "retry": "تلاش مجدد",
+    "totalItems": "مجموع {{total}} مورد",
+    "rowsPerPage": "تعداد سطر در هر صفحه"
+  },
+  "tickets": {
+    "title": "تیکت‌ها",
+    "newTicket": "ایجاد تیکت جدید",
+    "subject": "موضوع",
+    "status": "وضعیت",
+    "priority": "اولویت",
+    "createdAt": "تاریخ ایجاد",
+    "description": "توضیحات",
+    "submit": "ارسال",
+    "reply": "پاسخ",
+    "replyPlaceholder": "پاسخ خود را بنویسید...",
+    "changeStatus": "تغییر وضعیت",
+    "open": "باز",
+    "inProgress": "در حال بررسی",
+    "closed": "بسته‌شده",
+    "low": "کم",
+    "medium": "متوسط",
+    "high": "بالا",
+    "backToList": "بازگشت به لیست",
+    "createSuccess": "تیکت با موفقیت ایجاد شد",
+    "replySuccess": "پاسخ ثبت شد",
+    "statusUpdated": "وضعیت تیکت به‌روزرسانی شد",
+    "conversation": "مکالمه"
+  },
+  "users": {
+    "title": "مدیریت کاربران",
+    "name": "نام",
+    "email": "ایمیل",
+    "role": "نقش",
+    "status": "وضعیت",
+    "createdAt": "تاریخ عضویت",
+    "user": "کاربر",
+    "admin": "مدیر",
+    "actions": "عملیات",
+    "disable": "غیرفعال کردن",
+    "enable": "فعال کردن",
+    "disabled": "غیرفعال"
+  },
+  "reports": {
+    "title": "گزارش‌ها و آمار",
+    "totalUsers": "تعداد کل کاربران",
+    "totalTickets": "تعداد کل تیکت‌ها",
+    "openTickets": "تیکت‌های باز",
+    "closedTickets": "تیکت‌های بسته‌شده"
+  },
+  "profile": {
+    "title": "پروفایل کاربری",
+    "editInfo": "ویرایش اطلاعات",
+    "save": "ذخیره تغییرات",
+    "updateSuccess": "اطلاعات با موفقیت به‌روزرسانی شد"
+  },
+  "common": {
+    "cancel": "انصراف",
+    "confirm": "تأیید",
+    "yes": "بله",
+    "no": "خیر",
+    "language": "زبان"
+  }
+}
