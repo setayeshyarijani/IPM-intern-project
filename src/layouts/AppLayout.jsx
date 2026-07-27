@@ -42,23 +42,24 @@ const { Header, Sider, Content } = Layout;
 const { useBreakpoint } = Grid;
 const { Text } = Typography;
 
-// پالت رنگی سفارشی
+// پالت رنگی بهینه‌شده
 const COLORS = {
-  primary: '#77BEF0',
-  secondary: '#FFCB61',
-  tertiary: '#FF894F',
-  accent: '#EA5B6F',
-  darkBg: '#0A0E1A',
-  darkSider: '#111827',
-  darkCard: '#1A2234',
-  darkBorder: 'rgba(255,255,255,0.08)',
+  primary: "#72a1f2",
+  accent: "#22C55E",
+  warning: "#F59E0B",
+  danger: "#EF4444",
+  darkBg: "#0F172A",
+  darkSider: "#111827",
+  darkCard: "#1E293B",
+  darkHover: "#334155",
+  darkBorder: "rgba(148,163,184,.12)",
   lightBg: '#F5F7FA',
-  lightSider: '#001529',
+  lightSider: '#263478',
   lightCard: '#FFFFFF',
   lightBorder: 'rgba(0,0,0,0.06)',
 };
 
-// تم سفارشی برای دارک مود
+// Theme های بهینه‌شده
 const darkTheme = {
   algorithm: antdTheme.darkAlgorithm,
   token: {
@@ -71,24 +72,31 @@ const darkTheme = {
     colorTextSecondary: '#94A3B8',
     colorTextBase: '#E8EDF5',
     colorBgSpotlight: COLORS.darkSider,
+    borderRadius: 16, // افزایش radius
   },
   components: {
     Layout: {
-      headerBg: COLORS.darkCard,
+      headerBg: 'rgba(15,23,42,.75)', // Glass effect
       siderBg: COLORS.darkSider,
       bodyBg: COLORS.darkBg,
     },
     Menu: {
       darkItemBg: 'transparent',
-      darkItemSelectedBg: `rgba(119, 190, 240, 0.15)`,
+      darkItemSelectedBg: 'rgba(79,142,247,.15)',
       darkItemSelectedColor: COLORS.primary,
-      darkItemHoverBg: `rgba(119, 190, 240, 0.08)`,
+      darkItemHoverBg: 'rgba(79,142,247,.08)',
       darkItemColor: '#94A3B8',
+    },
+    Card: {
+      borderRadius: 16,
+      boxShadow: '0 10px 30px rgba(0,0,0,.22)',
+    },
+    Button: {
+      borderRadius: 12,
     },
   },
 };
 
-// تم سفارشی برای لایت مود
 const lightTheme = {
   algorithm: antdTheme.defaultAlgorithm,
   token: {
@@ -98,6 +106,7 @@ const lightTheme = {
     colorBorderSecondary: COLORS.lightBorder,
     colorText: '#1A2234',
     colorTextSecondary: '#64748B',
+    borderRadius: 16,
   },
   components: {
     Layout: {
@@ -107,10 +116,17 @@ const lightTheme = {
     },
     Menu: {
       darkItemBg: 'transparent',
-      darkItemSelectedBg: `rgba(119, 190, 240, 0.15)`,
+      darkItemSelectedBg: 'rgba(79,142,247,.15)',
       darkItemSelectedColor: COLORS.primary,
-      darkItemHoverBg: `rgba(119, 190, 240, 0.08)`,
+      darkItemHoverBg: 'rgba(79,142,247,.08)',
       darkItemColor: 'rgba(255,255,255,0.65)',
+    },
+    Card: {
+      borderRadius: 16,
+      boxShadow: '0 10px 30px rgba(0,0,0,.08)',
+    },
+    Button: {
+      borderRadius: 12,
     },
   },
 };
@@ -171,7 +187,7 @@ export default function AppLayout() {
     setDrawerOpen(false);
   };
 
-  // استایل‌های داینامیک برای آیتم‌های منو
+  // استایل داینامیک منو با Hover افکت
   const getMenuItemStyle = (item) => ({
     ...item,
     label: (
@@ -182,8 +198,8 @@ export default function AppLayout() {
             count={item.badge} 
             size="small" 
             style={{ 
-              backgroundColor: isDark ? COLORS.secondary : COLORS.primary,
-              color: isDark ? '#1A2234' : '#fff',
+              backgroundColor: isDark ? COLORS.accent : COLORS.primary,
+              color: '#fff',
             }}
           />
         )}
@@ -203,6 +219,8 @@ export default function AppLayout() {
         padding: '8px 0',
         background: 'transparent',
       }}
+      // استایل سفارشی برای Hover و Active
+      className="custom-menu"
     />
   );
 
@@ -220,7 +238,7 @@ export default function AppLayout() {
         key: 'en', 
         label: (
           <Flex align="center" gap={8}>
-            <span>🇬🇧</span> English
+            <span>ᴇɴ</span> English
           </Flex>
         )
       },
@@ -262,6 +280,7 @@ export default function AppLayout() {
     },
   };
 
+  // برند با گرادینت و Glow
   const brand = (
     <Flex 
       align="center" 
@@ -284,7 +303,7 @@ export default function AppLayout() {
           style={{
             width: 40,
             height: 40,
-            borderRadius: token.borderRadiusLG,
+            borderRadius: 16,
             background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.accent})`,
             display: 'flex',
             alignItems: 'center',
@@ -293,7 +312,7 @@ export default function AppLayout() {
             fontWeight: 700,
             color: '#fff',
             flexShrink: 0,
-            boxShadow: `0 2px 8px rgba(119, 190, 240, 0.3)`,
+            boxShadow: `0 0 25px rgba(79,142,247,.35)`, // Glow اضافه شد
           }}
         >
           {t('app.title').charAt(0)}
@@ -313,6 +332,7 @@ export default function AppLayout() {
     </Flex>
   );
 
+  // هدر با دکمه‌های بهینه‌شده
   const headerControls = (
     <Space size="middle" wrap>
       <Tooltip title="اعلان‌ها">
@@ -325,7 +345,11 @@ export default function AppLayout() {
               height: 40,
               borderRadius: '50%',
               color: isDark ? '#94A3B8' : '#64748B',
+              background: isDark ? 'rgba(255,255,255,.03)' : 'transparent',
+              border: isDark ? '1px solid rgba(255,255,255,.05)' : 'none',
+              transition: 'all .25s ease',
             }}
+            className="header-btn"
           />
         </Badge>
       </Tooltip>
@@ -333,14 +357,16 @@ export default function AppLayout() {
       <Tooltip title={mode === 'dark' ? 'حالت روشن' : 'حالت تاریک'}>
         <Button
           type="text"
-          icon={mode === 'dark' ? <SunOutlined style={{ fontSize: 18, color: COLORS.secondary }} /> : <MoonOutlined style={{ fontSize: 18 }} />}
+          icon={mode === 'dark' ? <SunOutlined style={{ fontSize: 18, color: COLORS.accent }} /> : <MoonOutlined style={{ fontSize: 18 }} />}
           onClick={toggleMode}
           style={{ 
             width: 40, 
             height: 40,
             borderRadius: '50%',
-            color: isDark ? COLORS.secondary : '#64748B',
-            background: isDark ? 'rgba(255, 203, 97, 0.1)' : 'transparent',
+            color: isDark ? COLORS.accent : '#64748B',
+            background: isDark ? 'rgba(34,197,94,.12)' : 'transparent',
+            border: isDark ? '1px solid rgba(34,197,94,.2)' : 'none',
+            transition: 'all .25s ease',
           }}
         />
       </Tooltip>
@@ -354,6 +380,9 @@ export default function AppLayout() {
             height: 40,
             borderRadius: '50%',
             color: isDark ? '#94A3B8' : '#64748B',
+            background: isDark ? 'rgba(255,255,255,.03)' : 'transparent',
+            border: isDark ? '1px solid rgba(255,255,255,.05)' : 'none',
+            transition: 'all .25s ease',
           }}
         />
       </Dropdown>
@@ -367,16 +396,11 @@ export default function AppLayout() {
           style={{ 
             cursor: 'pointer', 
             padding: '4px 12px 4px 8px',
-            borderRadius: token.borderRadiusLG,
-            transition: 'all 0.3s',
-            background: isDark ? 'rgba(255,255,255,0.03)' : 'transparent',
-            border: isDark ? `1px solid ${COLORS.darkBorder}` : 'none',
-            '&:hover': {
-              background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.02)',
-            }
+            borderRadius: 16,
+            transition: 'all .25s ease',
           }}
         >
-          <Badge dot status="success" offset={[-2, 2]}>
+          <Badge >
             <Avatar 
               icon={<UserOutlined />} 
               style={{ 
@@ -384,7 +408,7 @@ export default function AppLayout() {
                 color: '#fff',
                 width: 36,
                 height: 36,
-                boxShadow: `0 2px 8px rgba(119, 190, 240, 0.2)`,
+                boxShadow: `0 0 25px rgba(79,142,247,.35)`, // Glow آواتار
               }}
             />
           </Badge>
@@ -405,19 +429,29 @@ export default function AppLayout() {
     </Space>
   );
 
+  // سایدبار با گرادینت
   const siderStyle = {
     position: 'sticky',
     insetBlockStart: 0,
     height: '100vh',
     overflow: 'auto',
     boxShadow: isDark ? '2px 0 8px rgba(0,0,0,0.5)' : '2px 0 8px rgba(0,0,0,0.1)',
-    background: isDark ? COLORS.darkSider : COLORS.lightSider,
+    background: isDark 
+      ? 'linear-gradient(180deg, #111827 0%, #0F172A 100%)' 
+      : COLORS.lightSider,
   };
 
+  // هدر با Glass Effect
   const headerStyle = {
-    background: isDark ? COLORS.darkCard : COLORS.lightCard,
+    position: 'static',
+    top: 0,
+    background: isDark 
+      ? 'rgba(15,23,42,.75)' 
+      : COLORS.lightCard,
+    backdropFilter: isDark ? 'blur(18px)' : 'none',
+    WebkitBackdropFilter: isDark ? 'blur(18px)' : 'none',
     borderBottom: `1px solid ${isDark ? COLORS.darkBorder : COLORS.lightBorder}`,
-    padding: '0 24px',
+    padding: '0 32px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: isMobile ? 'space-between' : 'flex-end',
@@ -426,32 +460,40 @@ export default function AppLayout() {
     boxShadow: isDark ? '0 1px 4px rgba(0,0,0,0.3)' : '0 1px 4px rgba(0,0,0,0.04)',
   };
 
+  // محتوای اصلی با فاصله‌های جدید
   const contentStyle = {
     background: isDark ? COLORS.darkBg : COLORS.lightBg,
-    margin: 24,
+    margin: 32,
     padding: 0,
-    minHeight: 'calc(100vh - 120px)',
+    minHeight: 'calc(100vh - 136px)',
   };
 
+  // کارت با Shadow و Radius بیشتر
   const cardStyle = {
     background: isDark ? COLORS.darkCard : COLORS.lightCard,
-    padding: 24,
-    borderRadius: token.borderRadiusLG,
+    padding: 28,
+    borderRadius: 16,
     minHeight: '100%',
-    boxShadow: isDark ? '0 1px 4px rgba(0,0,0,0.3)' : '0 1px 4px rgba(0,0,0,0.04)',
+    boxShadow: isDark 
+      ? '0 10px 30px rgba(0,0,0,.22)' 
+      : '0 10px 30px rgba(0,0,0,.08)',
     border: `1px solid ${isDark ? COLORS.darkBorder : COLORS.lightBorder}`,
   };
 
   const drawerStyle = {
     body: { 
       padding: 0, 
-      background: isDark ? COLORS.darkSider : COLORS.lightSider,
+      background: isDark 
+        ? 'linear-gradient(180deg, #111827 0%, #0F172A 100%)' 
+        : COLORS.lightSider,
       display: 'flex',
       flexDirection: 'column',
       height: '100%',
     },
     header: {
-      background: isDark ? COLORS.darkSider : COLORS.lightSider,
+      background: isDark 
+        ? 'rgba(17,24,39,.8)' 
+        : COLORS.lightSider,
       borderBottom: isDark ? `1px solid ${COLORS.darkBorder}` : '1px solid rgba(255,255,255,0.1)',
       padding: '16px 20px',
     },
@@ -459,6 +501,51 @@ export default function AppLayout() {
 
   return (
     <ConfigProvider theme={currentTheme}>
+      {/* اضافه کردن استایل‌های سفارشی */}
+      <style>{`
+        /* منوی سفارشی با Hover و Active */
+        .custom-menu .ant-menu-item {
+          transition: all .25s ease !important;
+          margin: 4px 12px !important;
+          border-radius: 12px !important;
+        }
+        
+        .custom-menu .ant-menu-item:hover {
+          transform: translateX(${dir === 'rtl' ? '4px' : '-4px'}) !important;
+          background: rgba(79,142,247,.08) !important;
+        }
+        
+        .custom-menu .ant-menu-item-selected {
+          background: linear-gradient(90deg, rgba(79,142,247,.22), rgba(79,142,247,.08)) !important;
+          border-right: 4px solid ${COLORS.primary} !important;
+        }
+        
+        .custom-menu .ant-menu-item-selected::after {
+          display: none !important;
+        }
+
+        /* دکمه‌های هدر */
+        .header-btn:hover {
+          background: rgba(79,142,247,.12) !important;
+          transform: scale(1.05);
+        }
+
+        /* اسکرول سایدبار */
+        .ant-layout-sider::-webkit-scrollbar {
+          width: 4px;
+        }
+        .ant-layout-sider::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .ant-layout-sider::-webkit-scrollbar-thumb {
+          background: rgba(255,255,255,0.1);
+          border-radius: 4px;
+        }
+        .ant-layout-sider::-webkit-scrollbar-thumb:hover {
+          background: rgba(255,255,255,0.2);
+        }
+      `}</style>
+
       <Layout style={{ minHeight: '100vh', background: isDark ? COLORS.darkBg : COLORS.lightBg }}>
         {!isMobile && (
           <Sider width={260} theme="dark" style={siderStyle}>
@@ -506,9 +593,11 @@ export default function AppLayout() {
                 style={{ 
                   width: 44, 
                   height: 44,
-                  borderRadius: token.borderRadiusLG,
+                  borderRadius: 12,
                   color: isDark ? '#E8EDF5' : '#1A2234',
+                  transition: 'all .25s ease',
                 }}
+                className="header-btn"
               />
             )}
             {headerControls}
