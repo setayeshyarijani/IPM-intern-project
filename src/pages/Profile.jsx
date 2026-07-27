@@ -130,58 +130,67 @@ export default function Profile() {
 
       {/* Header Card with User Info */}
       <Card className="mb-6 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-xl overflow-hidden">
-        <Row gutter={[24, 24]} align="middle">
-          <Col xs={24} sm={8} md={6} className="text-center">
-            <Avatar 
-              size={120} 
-              icon={<UserOutlined />} 
-              className="bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg"
-            />
-            <div className="mt-4">
-              <Text strong className="text-lg block">{user.fullName}</Text>
-              <Text type="secondary" className="text-sm">{user.email}</Text>
+  <Row gutter={[24, 24]} align="middle">
+    <Col xs={24} sm={8} md={6} className="text-center">
+      <Avatar 
+        size={120} 
+        icon={<UserOutlined />} 
+        className="bg-gradient-to-r from-blue-400 to-blue-600 shadow-lg"
+      />
+    </Col>
+    <Col xs={24} sm={16} md={18}>
+      {/* خط اول: اسم کاربر با فونت بزرگ */}
+      <div className="mb-1">
+        <Text strong className="text-3xl block" style={{ fontSize: '28px' }}>
+          {user.fullName}
+        </Text>
+      </div>
+      {/* خط دوم: ایمیل */}
+      <div className="mb-3">
+        <Text type="secondary" className="text-base" style={{ fontSize: '16px' }}>
+          {user.email}
+        </Text>
+      </div>
+      {/* خط سوم: بقیه اطلاعات */}
+      <Row gutter={[16, 16]}>
+        <Col xs={12} sm={6}>
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <Text type="secondary" className="text-xs block">نقش</Text>
+            <div className="mt-1">{getRoleTag(user.role)}</div>
+          </div>
+        </Col>
+        <Col xs={12} sm={6}>
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <Text type="secondary" className="text-xs block">وضعیت</Text>
+            <div className="mt-1">{getStatusTag(user.status)}</div>
+          </div>
+        </Col>
+        <Col xs={12} sm={6}>
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <Text type="secondary" className="text-xs block">تاریخ عضویت</Text>
+            <div className="mt-1">
+              <Space>
+                <CalendarOutlined className="text-gray-400" />
+                <Ltr>{dayjs(user.createdAt).format('YYYY/MM/DD')}</Ltr>
+              </Space>
             </div>
-          </Col>
-          <Col xs={24} sm={16} md={18}>
-            <Row gutter={[16, 16]}>
-              <Col xs={12} sm={6}>
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <Text type="secondary" className="text-xs block">نقش</Text>
-                  <div className="mt-1">{getRoleTag(user.role)}</div>
-                </div>
-              </Col>
-              <Col xs={12} sm={6}>
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <Text type="secondary" className="text-xs block">وضعیت</Text>
-                  <div className="mt-1">{getStatusTag(user.status)}</div>
-                </div>
-              </Col>
-              <Col xs={12} sm={6}>
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <Text type="secondary" className="text-xs block">تاریخ عضویت</Text>
-                  <div className="mt-1">
-                    <Space>
-                      <CalendarOutlined className="text-gray-400" />
-                      <Ltr>{dayjs(user.createdAt).format('YYYY/MM/DD')}</Ltr>
-                    </Space>
-                  </div>
-                </div>
-              </Col>
-              <Col xs={12} sm={6}>
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <Text type="secondary" className="text-xs block">آخرین ورود</Text>
-                  <div className="mt-1">
-                    <Space>
-                      <CalendarOutlined className="text-gray-400" />
-                      <Ltr>{user.lastLogin ? dayjs(user.lastLogin).format('YYYY/MM/DD HH:mm') : '---'}</Ltr>
-                    </Space>
-                  </div>
-                </div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Card>
+          </div>
+        </Col>
+        <Col xs={12} sm={6}>
+          <div className="bg-gray-50 p-3 rounded-lg">
+            <Text type="secondary" className="text-xs block">آخرین ورود</Text>
+            <div className="mt-1">
+              <Space>
+                <CalendarOutlined className="text-gray-400" />
+                <Ltr>{user.lastLogin ? dayjs(user.lastLogin).format('YYYY/MM/DD HH:mm') : '---'}</Ltr>
+              </Space>
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </Col>
+  </Row>
+</Card>
 
       <Row gutter={[16, 16]}>
         <Col xs={24} lg={12}>
