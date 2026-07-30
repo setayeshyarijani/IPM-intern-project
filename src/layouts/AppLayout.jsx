@@ -44,7 +44,7 @@ const { Text } = Typography;
 
 // پالت رنگی بهینه‌شده
 const COLORS = {
-  primary: "#72a1f2",
+  primary: "#f2e660",
   accent: "#22C55E",
   warning: "#F59E0B",
   danger: "#EF4444",
@@ -53,10 +53,10 @@ const COLORS = {
   darkCard: "#1E293B",
   darkHover: "#334155",
   darkBorder: "rgba(148,163,184,.12)",
-  lightBg: '#F5F7FA',
-  lightSider: '#263478',
-  lightCard: '#FFFFFF',
-  lightBorder: 'rgba(0,0,0,0.06)',
+  lightBg: "#F8FAFC",
+  lightSider: "#3157c8c3", 
+  lightCard: "#FFFFFF",
+  lightBorder: "rgba(15,23,42,.08)",
 };
 
 // Theme های بهینه‌شده
