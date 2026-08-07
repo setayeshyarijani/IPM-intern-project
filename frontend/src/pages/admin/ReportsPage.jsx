@@ -1,157 +1,375 @@
+// Dashboard.jsx - با نمودار دوناتی
 import { useEffect, useState } from 'react';
-import { Typography, Row, Col, Card, Skeleton, Space, Divider, Progress, Button, message } from 'antd';
+import { 
+  Typography, 
+  Card, 
+  List, 
+  Skeleton,
+  Row,
+  Col,
+  Space,
+  Avatar,
+  Button,
+  Empty,
+  Divider,
+  Progress,
+  message,
+} from 'antd';
 import { 
   UserOutlined, 
-  IdcardOutlined, 
-  FolderOpenOutlined, 
-  CheckCircleOutlined 
+  CalendarOutlined, 
+  CheckCircleOutlined, 
+  ClockCircleOutlined,
+  CloseCircleOutlined,
+  FileOutlined,
+  PlusOutlined,
+  FireOutlined,
+  IdcardOutlined,
+  FolderOpenOutlined,
+  EyeOutlined,
+  ArrowRightOutlined,
+  PieChartOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { apiGetReports } from '../../api/client';
-import Ltr from '../../components/Ltr';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import { apiListTickets, apiListUsers } from '../../api/client';
+import { getDb } from '../../mock/database';
+import { useAuth } from '../../context/AuthContext';
 import { useThemeMode } from '../../context/ThemeModeContext';
+import Ltr from '../../components/Ltr';
 import { formatCalendarDate } from '../../utils/date';
+import { useNavigate } from 'react-router-dom';
 
-export default function ReportsPage() {
+// Import برای نمودار دوناتی
+import ReactECharts from 'echarts-for-react';
+
+dayjs.extend(relativeTime);
+
+const { Title, Text } = Typography;
+
+export default function Dashboard() {
   const { i18n } = useTranslation();
+  const { user } = useAuth();
   const { mode } = useThemeMode();
   const isDark = mode === 'dark';
-  const [stats, setStats] = useState(null);
+  const navigate = useNavigate();
+  
+  const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+  const [stats, setStats] = useState({
+    total: 0,
+    totalUsers: 0,
+    open: 0,
+    inProgress: 0,
+    resolved: 0,
+    closed: 0,
+  });
 
-  // تشخیص زبان فارسی یا انگلیسی
   const isPersian = i18n.language === 'fa';
 
-  // متن‌های فارسی یا انگلیسی
   const texts = {
-    title: isPersian ? 'گزارش‌ها' : 'Reports',
-    lastUpdated: isPersian ? 'آخرین بروزرسانی' : 'Last Updated',
+    welcome: isPersian 
+      ? `خوش آمدید ${user?.fullName || 'کاربر'}`
+      : `Welcome ${user?.fullName || 'User'}`,
+    newTicket: isPersian ? 'تیکت جدید' : 'New Ticket',
     totalUsers: isPersian ? 'کل کاربران' : 'Total Users',
     totalTickets: isPersian ? 'کل تیکت‌ها' : 'Total Tickets',
     openTickets: isPersian ? 'تیکت‌های باز' : 'Open Tickets',
-    closedTickets: isPersian ? 'تیکت‌های بسته شده' : 'Closed Tickets',
+    resolvedTickets: isPersian ? 'تیکت‌های بسته شده' : 'Resolved Tickets',
+    closedTickets: isPersian ? 'تیکت‌های بسته' : 'Closed Tickets',
+    recentTickets: isPersian ? 'تیکت‌های اخیر' : 'Recent Tickets',
+    viewAll: isPersian ? 'مشاهده همه' : 'View All',
+    view: isPersian ? 'مشاهده' : 'View',
+    noTickets: isPersian ? 'هیچ تیکتی ثبت نشده است' : 'No tickets found',
+    createNew: isPersian ? 'ثبت تیکت جدید' : 'Create New Ticket',
+    notLoggedIn: isPersian ? 'لطفاً وارد حساب کاربری خود شوید' : 'Please log in to your account',
+    login: isPersian ? 'ورود به حساب' : 'Login',
+    statusOpen: isPersian ? 'باز' : 'Open',
+    statusInProgress: isPersian ? 'در حال بررسی' : 'In Progress',
+    statusResolved: isPersian ? 'پاسخ داده شده' : 'Resolved',
+    statusClosed: isPersian ? 'بسته شده' : 'Closed',
     ticketStatus: isPersian ? 'وضعیت تیکت‌ها' : 'Ticket Status',
-    quickStats: isPersian ? 'آمار سریع' : 'Quick Stats',
-    noData: isPersian ? 'داده‌ای موجود نیست' : 'No data available',
+  };
+
+  const statusConfig = {
+    open: { 
+      label: texts.statusOpen,
+      bgColor: isDark ? 'rgba(24,144,255,0.15)' : '#e6f7ff',
+      textColor: isDark ? '#69c0ff' : '#1890ff',
+      dotColor: '#1890ff',
+      chartColor: '#1890ff'
+    },
+    inProgress: { 
+      label: texts.statusInProgress,
+      bgColor: isDark ? 'rgba(250,173,20,0.15)' : '#fff7e6',
+      textColor: isDark ? '#ffd666' : '#fa8c16',
+      dotColor: '#fa8c16',
+      chartColor: '#fa8c16'
+    },
+    resolved: { 
+      label: texts.statusResolved,
+      bgColor: isDark ? 'rgba(82,196,26,0.15)' : '#f6ffed',
+      textColor: isDark ? '#95de64' : '#52c41a',
+      dotColor: '#52c41a',
+      chartColor: '#52c41a'
+    },
+    closed: { 
+      label: texts.statusClosed,
+      bgColor: isDark ? 'rgba(148,163,184,0.15)' : '#fafafa',
+      textColor: isDark ? '#94A3B8' : '#d9d9d9',
+      dotColor: '#94A3B8',
+      chartColor: '#94A3B8'
+    },
   };
 
   useEffect(() => {
-    apiGetReports()
-      .then(setStats)
-      .finally(() => setLoading(false));
-  }, []);
+    let isMounted = true;
+    
+    const fetchData = async () => {
+      try {
+        if (!user?.id) {
+          setLoading(false);
+          return;
+        }
+        // If user is admin, fetch global data; otherwise only user's tickets
+        try {
+          if (user.role === 'admin') {
+            const [ticketsRes, usersRes] = await Promise.all([
+              apiListTickets({ page: 1, pageSize: 1000, sortField: 'createdAt', sortOrder: 'descend' }),
+              apiListUsers({ page: 1, pageSize: 1 }),
+            ]);
 
-  const loadReports = async () => {
-    setRefreshing(true);
-    try {
-      const result = await apiGetReports();
-      setStats(result);
-      message.success(isPersian ? 'گزارش‌ها به‌روزرسانی شد' : 'Reports refreshed');
-    } finally {
-      setRefreshing(false);
-    }
-  };
+            const allTickets = ticketsRes.items || [];
+            setRecent(allTickets.slice(0, 5));
 
-  const copySummary = async () => {
-    if (!stats) return;
-    const text = isPersian
-      ? `گزارش‌ها\nکل کاربران: ${stats.totalUsers}\nکل تیکت‌ها: ${stats.totalTickets}\nباز: ${stats.openTickets}\nبسته: ${stats.closedTickets}`
-      : `Reports\nUsers: ${stats.totalUsers}\nTickets: ${stats.totalTickets}\nOpen: ${stats.openTickets}\nClosed: ${stats.closedTickets}`;
-    await navigator.clipboard.writeText(text);
-    message.success(isPersian ? 'خلاصه کپی شد' : 'Summary copied');
-  };
+            setStats({
+              total: ticketsRes.total ?? allTickets.length,
+              open: allTickets.filter(item => item.status === 'open').length,
+              inProgress: allTickets.filter(item => item.status === 'inProgress').length,
+              resolved: allTickets.filter(item => item.status === 'resolved').length,
+              closed: allTickets.filter(item => item.status === 'closed').length,
+            });
 
-  if (loading) {
-    return (
-      <div style={{ padding: '24px' }}>
-        <Skeleton active paragraph={{ rows: 6 }} />
-      </div>
-    );
-  }
+            // total users from usersRes if provided, otherwise we'll fallback later
+            if (usersRes && typeof usersRes.total === 'number') {
+              setStats((s) => ({ ...s, totalUsers: usersRes.total }));
+            }
+          } else {
+            const res = await apiListTickets(
+              { page: 1, pageSize: 5, sortField: 'createdAt', sortOrder: 'descend' },
+              { onlyUserId: user.id }
+            );
+            if (isMounted && res?.items) {
+              setRecent(res.items);
+              setStats({
+                total: res.total ?? res.items.length,
+                open: res.items.filter(item => item.status === 'open').length,
+                inProgress: res.items.filter(item => item.status === 'inProgress').length,
+                resolved: res.items.filter(item => item.status === 'resolved').length,
+                closed: res.items.filter(item => item.status === 'closed').length,
+              });
+            }
+          }
+        } catch (apiError) {
+          // API failed; fall back to local mock DB
+          try {
+            const db = getDb();
+            const allTickets = db.tickets || [];
+            const allUsers = db.users || [];
+            setRecent(allTickets.slice(0, 5));
+            setStats({
+              total: allTickets.length,
+              open: allTickets.filter(item => item.status === 'open').length,
+              inProgress: allTickets.filter(item => item.status === 'inProgress').length,
+              resolved: allTickets.filter(item => item.status === 'resolved').length,
+              closed: allTickets.filter(item => item.status === 'closed').length,
+              totalUsers: allUsers.length,
+            });
+            message.info(isPersian ? 'داده‌ها از mock محلی بارگذاری شدند' : 'Data loaded from local mock');
+          } catch (dbError) {
+            console.error('Fallback DB error:', dbError);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching tickets:', error);
+        if (isMounted) {
+          setRecent([]);
+        }
+      } finally {
+        if (isMounted) {
+          setLoading(false);
+        }
+      }
+    };
 
-  if (!stats) {
-    return (
-      <div style={{ padding: '24px' }}>
-        <Card>
-          <Typography.Text type="secondary">{texts.noData}</Typography.Text>
-        </Card>
-      </div>
-    );
-  }
+    fetchData();
 
-  const closedPercent = stats.totalTickets > 0 
-    ? Math.round((stats.closedTickets / stats.totalTickets) * 100) 
-    : 0;
-  const openPercent = stats.totalTickets > 0 
-    ? Math.round((stats.openTickets / stats.totalTickets) * 100) 
-    : 0;
+    return () => {
+      isMounted = false;
+    };
+  }, [user?.id]);
 
   const cards = [
     { 
-      title: texts.totalUsers, 
-      value: stats.totalUsers, 
+      title: texts.totalUsers,
+      value: stats.totalUsers || stats.total, 
       icon: <UserOutlined />, 
       color: '#1677ff',
       bg: isDark ? 'rgba(22,119,255,0.1)' : '#e6f7ff'
     },
     { 
-      title: texts.totalTickets, 
-      value: stats.totalTickets, 
+      title: texts.totalTickets,
+      value: stats.total, 
       icon: <IdcardOutlined />, 
       color: '#722ed1',
       bg: isDark ? 'rgba(114,46,209,0.1)' : '#f9f0ff'
     },
     { 
-      title: texts.openTickets, 
-      value: stats.openTickets, 
+      title: texts.openTickets,
+      value: stats.open, 
       icon: <FolderOpenOutlined />, 
       color: '#faad14',
       bg: isDark ? 'rgba(250,173,20,0.1)' : '#fff7e6'
     },
     { 
-      title: texts.closedTickets, 
-      value: stats.closedTickets, 
+      title: texts.resolvedTickets,
+      value: stats.resolved, 
       icon: <CheckCircleOutlined />, 
       color: '#52c41a',
       bg: isDark ? 'rgba(82,196,26,0.1)' : '#f6ffed'
     },
   ];
 
-  // تاریخ بر اساس زبان
+  const totalTickets = stats.total || 1;
+  const openPercent = Math.round((stats.open / totalTickets) * 100);
+  const closedPercent = Math.round((stats.closed / totalTickets) * 100);
+  const inProgressPercent = Math.round((stats.inProgress / totalTickets) * 100);
+  const resolvedPercent = Math.round((stats.resolved / totalTickets) * 100);
+
+  const getDonutOption = () => {
+    const chartData = [
+      { 
+        name: texts.statusOpen, 
+        value: stats.open || 0,
+        itemStyle: { color: '#1890ff' }
+      },
+      { 
+        name: texts.statusInProgress, 
+        value: stats.inProgress || 0,
+        itemStyle: { color: '#fa8c16' }
+      },
+      { 
+        name: texts.statusResolved, 
+        value: stats.resolved || 0,
+        itemStyle: { color: '#52c41a' }
+      },
+      { 
+        name: texts.statusClosed, 
+        value: stats.closed || 0,
+        itemStyle: { color: '#94A3B8' }
+      },
+    ].filter(item => item.value > 0);
+
+    return {
+      tooltip: {
+        trigger: 'item',
+        formatter: (params) => {
+          return `<strong>${params.name}</strong><br/>${isPersian ? 'تعداد' : 'Count'}: ${params.value}<br/>${isPersian ? 'درصد' : 'Percent'}: ${params.percent}%`;
+        },
+        backgroundColor: isDark ? 'rgba(30,41,59,0.9)' : 'rgba(255,255,255,0.9)',
+        borderColor: isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0',
+        textStyle: {
+          color: isDark ? '#E8EDF5' : '#1A2234'
+        }
+      },
+      legend: {
+        orient: 'vertical',
+        right: 20,
+        top: 'center',
+        textStyle: {
+          color: isDark ? '#94A3B8' : '#64748B',
+          fontSize: 13,
+        },
+        itemWidth: 14,
+        itemHeight: 14,
+        itemGap: 12,
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['55%', '75%'],
+          avoidLabelOverlap: true,
+          itemStyle: {
+            borderRadius: 6,
+            borderColor: isDark ? '#1E293B' : '#fff',
+            borderWidth: 3,
+          },
+          label: {
+            show: true,
+            formatter: '{d}%',
+            color: isDark ? '#94A3B8' : '#64748B',
+            fontSize: 12,
+            fontWeight: 500,
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 14,
+              fontWeight: 'bold',
+            },
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.2)',
+            }
+          },
+          labelLine: {
+            lineStyle: {
+              color: isDark ? 'rgba(148,163,184,0.3)' : '#d9d9d9',
+            }
+          },
+          data: chartData,
+          animationDuration: 1500,
+          animationEasing: 'cubicOut',
+        },
+      ],
+    };
+  };
+
+  if (!user) {
+    return (
+      <div style={{ padding: 24 }}>
+        <Card style={{
+          borderRadius: 16,
+          background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
+          border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
+        }}>
+          <Empty 
+            description={texts.notLoggedIn}
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+          >
+            <Button type="primary" onClick={() => navigate('/login')}>
+              {texts.login}
+            </Button>
+          </Empty>
+        </Card>
+      </div>
+    );
+  }
+
   const getFormattedDate = () => {
-    return formatCalendarDate(new Date(), isPersian ? 'fa' : 'en');
+    return formatCalendarDate(new Date(), isPersian ? 'fa' : 'en', {
+      withTime: false,
+      weekday: true,
+    });
   };
 
   return (
-    <div style={{ padding: '24px' }}>
-      {/* Header */}
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        marginBottom: 24,
-        flexWrap: 'wrap',
-        gap: 12
-      }}>
-        <Typography.Title level={3} style={{ margin: 0 }}>
-          {texts.title}
-        </Typography.Title>
-        <Space>
-          <Button onClick={copySummary} disabled={!stats}>
-            {isPersian ? 'کپی خلاصه' : 'Copy Summary'}
-          </Button>
-          <Button onClick={loadReports} loading={refreshing}>
-            {isPersian ? 'به‌روزرسانی' : 'Refresh'}
-          </Button>
-          <Typography.Text type="secondary">
-            {texts.lastUpdated}: <Ltr>{getFormattedDate()}</Ltr>
-          </Typography.Text>
-        </Space>
-      </div>
+    <div style={{ padding: 24 }}>
 
-      {/* Statistics Cards */}
-      <Row gutter={[16, 16]}>
+      {/* Stat Cards */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         {cards.map((c) => (
           <Col xs={24} sm={12} lg={6} key={c.title}>
             <Card 
@@ -159,9 +377,7 @@ export default function ReportsPage() {
                 borderRadius: 16,
                 background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
                 border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-                backdropFilter: isDark ? 'blur(10px)' : 'none',
                 transition: 'all 0.3s ease',
-                cursor: 'default'
               }}
               hoverable
             >
@@ -180,18 +396,18 @@ export default function ReportsPage() {
                   {c.icon}
                 </div>
                 <div>
-                  <Typography.Text style={{ 
+                  <Text style={{ 
                     fontSize: 13,
                     color: isDark ? '#94A3B8' : '#64748B'
                   }}>
                     {c.title}
-                  </Typography.Text>
+                  </Text>
                   <div style={{ 
                     fontSize: 28, 
                     fontWeight: 700,
                     color: c.color
                   }}>
-                    {c.value.toLocaleString()}
+                    {c.value}
                   </div>
                 </div>
               </div>
@@ -200,22 +416,58 @@ export default function ReportsPage() {
         ))}
       </Row>
 
-      {/* Bottom Section - Left: Ticket Status */}
-      <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
-        <Col xs={24} md={12}>
+      {/* Donut Chart Section */}
+      <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
+        <Col xs={24} lg={14}>
           <Card 
             title={
-              <span style={{ color: isDark ? '#E8EDF5' : '#1A2234' }}>
-                {texts.ticketStatus}
-              </span>
+              <Space>
+                <PieChartOutlined style={{ color: isDark ? '#4F8EF7' : '#1890ff' }} />
+                <span style={{ color: isDark ? '#E8EDF5' : '#1A2234' }}>
+                  {texts.ticketStatus}
+                </span>
+              </Space>
             }
-            bordered={false}
-            style={{ 
+            style={{
               borderRadius: 16,
               background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
               border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-              backdropFilter: isDark ? 'blur(10px)' : 'none',
-              boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.2)' : '0 2px 8px rgba(0,0,0,0.06)'
+              height: '100%',
+            }}
+          >
+            {stats.total > 0 ? (
+              <div style={{ height: 320 }}>
+                <ReactECharts 
+                  option={getDonutOption()} 
+                  style={{ height: '100%', width: '100%' }}
+                />
+              </div>
+            ) : (
+              <div style={{ 
+                height: 280, 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center' 
+              }}>
+                <Empty description={texts.noTickets} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              </div>
+            )}
+          </Card>
+        </Col>
+
+        {/* Progress Stats */}
+        <Col xs={24} lg={10}>
+          <Card 
+            title={
+              <span style={{ color: isDark ? '#E8EDF5' : '#1A2234' }}>
+                {isPersian ? 'آمار دقیق' : 'Detailed Stats'}
+              </span>
+            }
+            style={{
+              borderRadius: 16,
+              background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
+              border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
+              height: '100%',
             }}
           >
             <Space direction="vertical" style={{ width: '100%' }} size="middle">
@@ -228,7 +480,7 @@ export default function ReportsPage() {
                 }}>
                   <span>{texts.openTickets}</span>
                   <span style={{ fontWeight: 600, color: isDark ? '#E8EDF5' : '#1A2234' }}>
-                    {stats.openTickets.toLocaleString()}
+                    {stats.open.toLocaleString()}
                   </span>
                 </div>
                 <Progress 
@@ -239,6 +491,49 @@ export default function ReportsPage() {
                   trailColor={isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0'}
                 />
               </div>
+              
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  marginBottom: 4,
+                  color: isDark ? '#94A3B8' : '#64748B'
+                }}>
+                  <span>{texts.statusInProgress}</span>
+                  <span style={{ fontWeight: 600, color: isDark ? '#E8EDF5' : '#1A2234' }}>
+                    {stats.inProgress.toLocaleString()}
+                  </span>
+                </div>
+                <Progress 
+                  percent={inProgressPercent} 
+                  strokeColor="#fa8c16" 
+                  strokeWidth={8} 
+                  showInfo={false}
+                  trailColor={isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0'}
+                />
+              </div>
+              
+              <div>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  marginBottom: 4,
+                  color: isDark ? '#94A3B8' : '#64748B'
+                }}>
+                  <span>{texts.statusResolved}</span>
+                  <span style={{ fontWeight: 600, color: isDark ? '#E8EDF5' : '#1A2234' }}>
+                    {stats.resolved.toLocaleString()}
+                  </span>
+                </div>
+                <Progress 
+                  percent={resolvedPercent} 
+                  strokeColor="#52c41a" 
+                  strokeWidth={8} 
+                  showInfo={false}
+                  trailColor={isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0'}
+                />
+              </div>
+              
               <div>
                 <div style={{ 
                   display: 'flex', 
@@ -248,162 +543,197 @@ export default function ReportsPage() {
                 }}>
                   <span>{texts.closedTickets}</span>
                   <span style={{ fontWeight: 600, color: isDark ? '#E8EDF5' : '#1A2234' }}>
-                    {stats.closedTickets.toLocaleString()}
+                    {stats.closed.toLocaleString()}
                   </span>
                 </div>
                 <Progress 
                   percent={closedPercent} 
-                  strokeColor="#52c41a" 
+                  strokeColor="#94A3B8" 
                   strokeWidth={8} 
                   showInfo={false}
                   trailColor={isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0'}
                 />
-              </div>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                paddingTop: 12,
-                borderTop: `1px solid ${isDark ? 'rgba(148,163,184,0.12)' : '#f0f0f0'}`
-              }}>
-                <span style={{ color: isDark ? '#94A3B8' : '#8c8c8c' }}>{texts.totalTickets}</span>
-                <span style={{ 
-                  fontWeight: 600, 
-                  fontSize: 16,
-                  color: isDark ? '#E8EDF5' : '#1A2234'
-                }}>
-                  {stats.totalTickets.toLocaleString()}
-                </span>
-              </div>
-            </Space>
-          </Card>
-        </Col>
-
-        {/* Bottom Section - Right: Quick Stats */}
-        <Col xs={24} md={12}>
-          <Card 
-            title={
-              <span style={{ color: isDark ? '#E8EDF5' : '#1A2234' }}>
-                {texts.quickStats}
-              </span>
-            }
-            bordered={false}
-            style={{ 
-              borderRadius: 16,
-              background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
-              border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-              backdropFilter: isDark ? 'blur(10px)' : 'none',
-              boxShadow: isDark ? '0 4px 12px rgba(0,0,0,0.2)' : '0 2px 8px rgba(0,0,0,0.06)'
-            }}
-          >
-            <Space direction="vertical" style={{ width: '100%' }} size="middle">
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                padding: '4px 0'
-              }}>
-                <span style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
-                  <UserOutlined style={{ marginRight: 8, color: '#1677ff' }} /> 
-                  {texts.totalUsers}
-                </span>
-                <span style={{ 
-                  fontSize: 18, 
-                  fontWeight: 600,
-                  color: isDark ? '#E8EDF5' : '#1A2234'
-                }}>
-                  {stats.totalUsers.toLocaleString()}
-                </span>
-              </div>
-              <Divider style={{ 
-                margin: 4,
-                borderColor: isDark ? 'rgba(148,163,184,0.12)' : '#f0f0f0'
-              }} />
-              
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                padding: '4px 0'
-              }}>
-                <span style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
-                  <IdcardOutlined style={{ marginRight: 8, color: '#722ed1' }} /> 
-                  {texts.totalTickets}
-                </span>
-                <span style={{ 
-                  fontSize: 18, 
-                  fontWeight: 600,
-                  color: isDark ? '#E8EDF5' : '#1A2234'
-                }}>
-                  {stats.totalTickets.toLocaleString()}
-                </span>
-              </div>
-              <Divider style={{ 
-                margin: 4,
-                borderColor: isDark ? 'rgba(148,163,184,0.12)' : '#f0f0f0'
-              }} />
-              
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                padding: '4px 0'
-              }}>
-                <span style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
-                  <FolderOpenOutlined style={{ marginRight: 8, color: '#faad14' }} /> 
-                  {texts.openTickets}
-                </span>
-                <span style={{ 
-                  fontSize: 18, 
-                  fontWeight: 600,
-                  color: isDark ? '#E8EDF5' : '#1A2234'
-                }}>
-                  {stats.openTickets.toLocaleString()}
-                </span>
-              </div>
-              <Divider style={{ 
-                margin: 4,
-                borderColor: isDark ? 'rgba(148,163,184,0.12)' : '#f0f0f0'
-              }} />
-              
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between', 
-                alignItems: 'center',
-                padding: '4px 0'
-              }}>
-                <span style={{ color: isDark ? '#94A3B8' : '#64748B' }}>
-                  <CheckCircleOutlined style={{ marginRight: 8, color: '#52c41a' }} /> 
-                  {texts.closedTickets}
-                </span>
-                <span style={{ 
-                  fontSize: 18, 
-                  fontWeight: 600,
-                  color: isDark ? '#E8EDF5' : '#1A2234'
-                }}>
-                  {stats.closedTickets.toLocaleString()}
-                </span>
               </div>
             </Space>
           </Card>
         </Col>
       </Row>
 
-      {/* Custom Styles for Dark Mode */}
+      {/* Recent Tickets */}
+      <Card 
+        title={
+          <Space>
+            <FireOutlined style={{ color: isDark ? '#4F8EF7' : '#1890ff' }} />
+            <span style={{ color: isDark ? '#E8EDF5' : '#1A2234' }}>
+              {texts.recentTickets}
+            </span>
+          </Space>
+        }
+        extra={
+          <Button 
+            type="link" 
+            onClick={() => navigate('/tickets')}
+            style={{ 
+              fontWeight: 500,
+              color: isDark ? '#4F8EF7' : '#1890ff'
+            }}
+          >
+            {texts.viewAll} <ArrowRightOutlined style={{ fontSize: 12 }} />
+          </Button>
+        }
+        style={{
+          borderRadius: 16,
+          background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
+          border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
+        }}
+      >
+        {loading ? (
+          <Skeleton active avatar paragraph={{ rows: 3 }} />
+        ) : recent.length > 0 ? (
+          <List
+            dataSource={recent}
+            renderItem={(item) => {
+              const status = statusConfig[item.status] || statusConfig.open;
+              const formatDate = (date) => {
+                return formatCalendarDate(date, isPersian ? 'fa' : 'en');
+              };
+              const getRelativeTime = (date) => {
+                if (isPersian) {
+                  return dayjs(date).locale('fa').fromNow();
+                }
+                return dayjs(date).locale('en').fromNow();
+              };
+              return (
+                <List.Item
+                  actions={[
+                    <Space size="middle" align="center">
+                      <span 
+                        style={{
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 6,
+                          padding: '4px 14px',
+                          borderRadius: 20,
+                          background: status.bgColor,
+                          color: status.textColor,
+                          fontSize: 12,
+                          fontWeight: 600,
+                        }}
+                      >
+                        <span 
+                          style={{
+                            display: 'inline-block',
+                            width: 8,
+                            height: 8,
+                            borderRadius: '50%',
+                            background: status.dotColor,
+                          }}
+                        />
+                        {status.label}
+                      </span>
+                      
+                      <Button 
+                        type="primary"
+                        size="small"
+                        icon={<EyeOutlined />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/tickets/${item.id}`);
+                        }}
+                        style={{
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 500
+                        }}
+                      >
+                        {texts.view}
+                      </Button>
+                    </Space>
+                  ]}
+                  style={{ 
+                    padding: '16px 20px',
+                    borderRadius: 12,
+                    transition: 'all 0.25s ease',
+                    cursor: 'pointer',
+                    borderBottom: isDark 
+                      ? '1px solid rgba(148,163,184,.08)' 
+                      : '1px solid #f0f0f0',
+                  }}
+                  onClick={() => navigate(`/tickets/${item.id}`)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = isDark 
+                      ? 'rgba(255,255,255,0.03)' 
+                      : '#fafafa';
+                    e.currentTarget.style.transform = 'translateX(4px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.transform = 'translateX(0)';
+                  }}
+                >
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar 
+                        icon={<FileOutlined />}
+                        style={{ 
+                          background: status.bgColor,
+                          color: status.textColor,
+                        }}
+                      />
+                    }
+                    title={
+                      <Text strong style={{ 
+                        fontSize: 15,
+                        color: isDark ? '#E8EDF5' : '#1A2234'
+                      }}>
+                        {item.subject}
+                      </Text>
+                    }
+                    description={
+                      <Space size="middle" wrap>
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          <CalendarOutlined style={{ marginLeft: 4 }} />
+                          <Ltr>
+                            {formatDate(item.createdAt)}
+                          </Ltr>
+                        </Text>
+                        <Text type="secondary" style={{ fontSize: 12 }}>
+                          <ClockCircleOutlined style={{ marginLeft: 4 }} />
+                          <Ltr>
+                            {getRelativeTime(item.createdAt)}
+                          </Ltr>
+                        </Text>
+                      </Space>
+                    }
+                  />
+                </List.Item>
+              );
+            }}
+          />
+        ) : (
+          <Empty 
+            image={Empty.PRESENTED_IMAGE_SIMPLE}
+            description={texts.noTickets}
+          >
+            <Button type="primary" onClick={() => navigate('/tickets/new')}>
+              {texts.createNew}
+            </Button>
+          </Empty>
+        )}
+      </Card>
+
       <style>{`
-        .ant-statistic-title {
-          color: ${isDark ? '#94A3B8' : '#64748B'} !important;
-        }
-        .ant-statistic-content {
-          color: ${isDark ? '#E8EDF5' : '#1A2234'} !important;
-        }
-        .ant-card-head-title {
-          color: ${isDark ? '#E8EDF5' : '#1A2234'} !important;
-        }
         .ant-card-hoverable:hover {
           box-shadow: ${isDark 
             ? '0 8px 24px rgba(0,0,0,0.4)' 
             : '0 8px 24px rgba(0,0,0,0.08)'} !important;
           transform: translateY(-2px);
+        }
+        .ant-list-item {
+          transition: all 0.25s ease !important;
+        }
+        .ant-empty-description {
+          color: ${isDark ? '#94A3B8' : '#64748B'} !important;
         }
       `}</style>
     </div>

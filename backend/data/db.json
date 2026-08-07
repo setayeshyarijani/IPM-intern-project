@@ -435,6 +435,25 @@
   ],
   "tickets": [
     {
+      "id": "t-1786093915136-18e9yi",
+      "subject": "ب43ثتخبق",
+      "description": "قثیزصش",
+      "status": "open",
+      "priority": "medium",
+      "createdAt": "2026-08-07T09:11:55.136Z",
+      "authorId": "u-admin",
+      "authorName": "System Admin",
+      "messages": [
+        {
+          "id": "m-1786093915136-p7xxi9",
+          "authorId": "u-admin",
+          "authorName": "System Admin",
+          "body": "قثیزصش",
+          "createdAt": "2026-08-07T09:11:55.136Z"
+        }
+      ]
+    },
+    {
       "id": "t-1",
       "subject": "Dashboard not loading #1",
       "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",

@@ -1,4 +1,4 @@
-// Dashboard.jsx - با شرط مستقیم برای فارسی/انگلیسی
+// Dashboard.jsx - نسخه نهایی با نمودار دوناتی
 import { useEffect, useState } from 'react';
 import { 
   Typography, 
@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Empty,
+  message,
 } from 'antd';
 import { 
   UserOutlined, 
@@ -24,17 +25,20 @@ import {
   IdcardOutlined,
   FolderOpenOutlined,
   EyeOutlined,
-  ArrowRightOutlined
+  ArrowRightOutlined,
+  PieChartOutlined,
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { apiListTickets } from '../api/client';
+import { apiListTickets, apiListUsers } from '../api/client';
+import { getDb } from '../mock/database';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeModeContext';
 import Ltr from '../components/Ltr';
 import { formatCalendarDate } from '../utils/date';
 import { useNavigate } from 'react-router-dom';
+import ReactECharts from 'echarts-for-react';
 
 dayjs.extend(relativeTime);
 
@@ -46,17 +50,72 @@ export default function Dashboard() {
   const { mode } = useThemeMode();
   const isDark = mode === 'dark';
   const navigate = useNavigate();
+  
   const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     total: 0,
+    totalUsers: 0,
     open: 0,
     inProgress: 0,
     resolved: 0,
+    closed: 0,
   });
 
-  // تشخیص زبان فارسی یا انگلیسی
   const isPersian = i18n.language === 'fa';
+
+  // متن‌های فارسی/انگلیسی
+  const texts = {
+    welcome: isPersian 
+      ? `خوش آمدید ${user?.fullName || 'کاربر'}`
+      : `Welcome ${user?.fullName || 'User'}`,
+    newTicket: isPersian ? 'تیکت جدید' : 'New Ticket',
+    totalUsers: isPersian ? 'کل کاربران' : 'Total Users',
+    totalTickets: isPersian ? 'کل تیکت‌ها' : 'Total Tickets',
+    openTickets: isPersian ? 'تیکت‌های باز' : 'Open Tickets',
+    resolvedTickets: isPersian ? 'تیکت‌های بسته شده' : 'Resolved Tickets',
+    closedTickets: isPersian ? 'تیکت‌های بسته' : 'Closed Tickets',
+    recentTickets: isPersian ? 'تیکت‌های اخیر' : 'Recent Tickets',
+    viewAll: isPersian ? 'مشاهده همه' : 'View All',
+    view: isPersian ? 'مشاهده' : 'View',
+    noTickets: isPersian ? 'هیچ تیکتی ثبت نشده است' : 'No tickets found',
+    createNew: isPersian ? 'ثبت تیکت جدید' : 'Create New Ticket',
+    notLoggedIn: isPersian ? 'لطفاً وارد حساب کاربری خود شوید' : 'Please log in to your account',
+    login: isPersian ? 'ورود به حساب' : 'Login',
+    statusOpen: isPersian ? 'باز' : 'Open',
+    statusInProgress: isPersian ? 'در حال بررسی' : 'In Progress',
+    statusResolved: isPersian ? 'پاسخ داده شده' : 'Resolved',
+    statusClosed: isPersian ? 'بسته شده' : 'Closed',
+    ticketStatus: isPersian ? 'وضعیت تیکت‌ها' : 'Ticket Status',
+    detailedStats: isPersian ? 'آمار دقیق' : 'Detailed Stats',
+  };
+
+  const statusConfig = {
+    open: { 
+      label: texts.statusOpen,
+      bgColor: isDark ? 'rgba(24,144,255,0.15)' : '#e6f7ff',
+      textColor: isDark ? '#69c0ff' : '#1890ff',
+      dotColor: '#1890ff',
+    },
+    inProgress: { 
+      label: texts.statusInProgress,
+      bgColor: isDark ? 'rgba(250,173,20,0.15)' : '#fff7e6',
+      textColor: isDark ? '#ffd666' : '#fa8c16',
+      dotColor: '#fa8c16',
+    },
+    resolved: { 
+      label: texts.statusResolved,
+      bgColor: isDark ? 'rgba(82,196,26,0.15)' : '#f6ffed',
+      textColor: isDark ? '#95de64' : '#52c41a',
+      dotColor: '#52c41a',
+    },
+    closed: { 
+      label: texts.statusClosed,
+      bgColor: isDark ? 'rgba(148,163,184,0.15)' : '#fafafa',
+      textColor: isDark ? '#94A3B8' : '#d9d9d9',
+      dotColor: '#94A3B8',
+    },
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -67,25 +126,79 @@ export default function Dashboard() {
           setLoading(false);
           return;
         }
-        
-        const res = await apiListTickets(
-          { page: 1, pageSize: 5, sortField: 'createdAt', sortOrder: 'descend' },
-          { onlyUserId: user.id }
-        );
-        
-        if (isMounted && res?.items) {
-          setRecent(res.items);
-          
-          const statsData = {
-            total: res.total ?? res.items.length,
-            open: res.items.filter(item => item.status === 'open').length,
-            inProgress: res.items.filter(item => item.status === 'inProgress').length,
-            resolved: res.items.filter(item => item.status === 'resolved').length,
-          };
-          setStats(statsData);
+
+        try {
+          let ticketsData;
+          let usersCount = 0;
+
+          // اگر admin هست، همه تیکت‌ها و کاربران رو بگیر
+          if (user.role === 'admin') {
+            const [ticketsRes, usersRes] = await Promise.all([
+              apiListTickets({ page: 1, pageSize: 1000, sortField: 'createdAt', sortOrder: 'descend' }),
+              apiListUsers({ page: 1, pageSize: 1 })
+            ]);
+
+            ticketsData = ticketsRes;
+            usersCount = usersRes?.total || 0;
+          } else {
+            // فقط تیکت‌های خود کاربر
+            const res = await apiListTickets(
+              { page: 1, pageSize: 5, sortField: 'createdAt', sortOrder: 'descend' },
+              { onlyUserId: user.id }
+            );
+            ticketsData = res;
+            
+            // برای کاربر عادی، تعداد کاربران رو از دیتابیس محلی می‌گیریم
+            try {
+              const db = getDb();
+              usersCount = (db.users || []).length;
+            } catch {
+              usersCount = 0;
+            }
+          }
+
+          if (isMounted && ticketsData?.items) {
+            const items = ticketsData.items;
+            setRecent(items.slice(0, 5));
+            
+            setStats({
+              total: ticketsData.total ?? items.length,
+              totalUsers: usersCount,
+              open: items.filter(item => item.status === 'open').length,
+              inProgress: items.filter(item => item.status === 'inProgress').length,
+              resolved: items.filter(item => item.status === 'resolved').length,
+              closed: items.filter(item => item.status === 'closed').length,
+            });
+          }
+        } catch (apiError) {
+          // Fallback به دیتابیس محلی
+          console.warn('API failed, using local mock:', apiError);
+          try {
+            const db = getDb();
+            const allTickets = db.tickets || [];
+            const allUsers = db.users || [];
+            
+            // فیلتر بر اساس نقش کاربر
+            const filteredTickets = user.role === 'admin' 
+              ? allTickets 
+              : allTickets.filter(t => t.authorId === user.id);
+            
+            setRecent(filteredTickets.slice(0, 5));
+            setStats({
+              total: filteredTickets.length,
+              totalUsers: allUsers.length,
+              open: filteredTickets.filter(item => item.status === 'open').length,
+              inProgress: filteredTickets.filter(item => item.status === 'inProgress').length,
+              resolved: filteredTickets.filter(item => item.status === 'resolved').length,
+              closed: filteredTickets.filter(item => item.status === 'closed').length,
+            });
+            message.info(isPersian ? 'داده‌ها از دیتابیس محلی بارگذاری شدند' : 'Data loaded from local database');
+          } catch (dbError) {
+            console.error('Fallback DB error:', dbError);
+          }
         }
       } catch (error) {
-        console.error('Error fetching tickets:', error);
+        console.error('Error fetching data:', error);
         if (isMounted) {
           setRecent([]);
         }
@@ -101,81 +214,13 @@ export default function Dashboard() {
     return () => {
       isMounted = false;
     };
-  }, [user?.id]);
-
-  // متن‌های فارسی یا انگلیسی - با شرط مستقیم
-  const texts = {
-    // هدر
-    welcome: isPersian 
-      ? `خوش آمدید ${user?.fullName || 'کاربر'}`
-      : `Welcome ${user?.fullName || 'User'}`,
-    newTicket: isPersian ? 'تیکت جدید' : 'New Ticket',
-    
-    // کارت‌های آماری
-    totalUsers: isPersian ? 'کل کاربران' : 'Total Users',
-    totalTickets: isPersian ? 'کل تیکت‌ها' : 'Total Tickets',
-    openTickets: isPersian ? 'تیکت‌های باز' : 'Open Tickets',
-    resolvedTickets: isPersian ? 'تیکت‌های بسته شده' : 'Resolved Tickets',
-    
-    // تیکت‌های اخیر
-    recentTickets: isPersian ? 'تیکت‌های اخیر' : 'Recent Tickets',
-    viewAll: isPersian ? 'مشاهده همه' : 'View All',
-    view: isPersian ? 'مشاهده' : 'View',
-    noTickets: isPersian ? 'هیچ تیکتی ثبت نشده است' : 'No tickets found',
-    createNew: isPersian ? 'ثبت تیکت جدید' : 'Create New Ticket',
-    
-    // لاگین
-    notLoggedIn: isPersian ? 'لطفاً وارد حساب کاربری خود شوید' : 'Please log in to your account',
-    login: isPersian ? 'ورود به حساب' : 'Login',
-    
-    // وضعیت‌های تیکت
-    statusOpen: isPersian ? 'باز' : 'Open',
-    statusInProgress: isPersian ? 'در حال بررسی' : 'In Progress',
-    statusResolved: isPersian ? 'پاسخ داده شده' : 'Resolved',
-    statusClosed: isPersian ? 'بسته شده' : 'Closed',
-  };
-
-  // وضعیت‌های تیکت
-  const statusConfig = {
-    open: { 
-      color: 'processing', 
-      icon: <ClockCircleOutlined />, 
-      label: texts.statusOpen,
-      bgColor: isDark ? 'rgba(24,144,255,0.15)' : '#e6f7ff',
-      textColor: isDark ? '#69c0ff' : '#1890ff',
-      dotColor: '#1890ff'
-    },
-    inProgress: { 
-      color: 'warning', 
-      icon: <CheckCircleOutlined />, 
-      label: texts.statusInProgress,
-      bgColor: isDark ? 'rgba(250,173,20,0.15)' : '#fff7e6',
-      textColor: isDark ? '#ffd666' : '#fa8c16',
-      dotColor: '#fa8c16'
-    },
-    resolved: { 
-      color: 'success', 
-      icon: <CheckCircleOutlined />, 
-      label: texts.statusResolved,
-      bgColor: isDark ? 'rgba(82,196,26,0.15)' : '#f6ffed',
-      textColor: isDark ? '#95de64' : '#52c41a',
-      dotColor: '#52c41a'
-    },
-    closed: { 
-      color: 'default', 
-      icon: <CloseCircleOutlined />, 
-      label: texts.statusClosed,
-      bgColor: isDark ? 'rgba(148,163,184,0.15)' : '#fafafa',
-      textColor: isDark ? '#94A3B8' : '#d9d9d9',
-      dotColor: '#94A3B8'
-    },
-  };
+  }, [user?.id, user?.role, isPersian]);
 
   // کارت‌های آماری
   const cards = [
     { 
       title: texts.totalUsers,
-      value: stats.total, 
+      value: stats.totalUsers, 
       icon: <UserOutlined />, 
       color: '#1677ff',
       bg: isDark ? 'rgba(22,119,255,0.1)' : '#e6f7ff'
@@ -203,6 +248,114 @@ export default function Dashboard() {
     },
   ];
 
+  // تنظیمات نمودار دوناتی
+  const getDonutOption = () => {
+    const total = stats.total || 0;
+    const chartData = [
+      { 
+        name: texts.statusOpen, 
+        value: stats.open || 0,
+        itemStyle: { color: '#1890ff' }
+      },
+      { 
+        name: texts.statusInProgress, 
+        value: stats.inProgress || 0,
+        itemStyle: { color: '#fa8c16' }
+      },
+      { 
+        name: texts.statusResolved, 
+        value: stats.resolved || 0,
+        itemStyle: { color: '#52c41a' }
+      },
+      { 
+        name: texts.statusClosed, 
+        value: stats.closed || 0,
+        itemStyle: { color: '#94A3B8' }
+      },
+    ].filter(item => item.value > 0);
+
+    // اگر دیتایی وجود نداره، یک دیتای پیش‌فرض نشون بده
+    if (chartData.length === 0) {
+      chartData.push({
+        name: isPersian ? 'بدون تیکت' : 'No Tickets',
+        value: 1,
+        itemStyle: { color: '#d9d9d9' }
+      });
+    }
+
+    return {
+      tooltip: {
+        trigger: 'item',
+        formatter: (params) => {
+          return `<strong>${params.name}</strong><br/>${isPersian ? 'تعداد' : 'Count'}: ${params.value}<br/>${isPersian ? 'درصد' : 'Percent'}: ${params.percent}%`;
+        },
+        backgroundColor: isDark ? 'rgba(30,41,59,0.9)' : 'rgba(255,255,255,0.9)',
+        borderColor: isDark ? 'rgba(148,163,184,0.2)' : '#f0f0f0',
+        textStyle: {
+          color: isDark ? '#E8EDF5' : '#1A2234'
+        }
+      },
+      legend: {
+        orient: 'vertical',
+        right: 20,
+        top: 'center',
+        textStyle: {
+          color: isDark ? '#94A3B8' : '#64748B',
+          fontSize: 13,
+        },
+        itemWidth: 14,
+        itemHeight: 14,
+        itemGap: 12,
+      },
+      series: [
+        {
+          type: 'pie',
+          radius: ['55%', '75%'],
+          avoidLabelOverlap: true,
+          itemStyle: {
+            borderRadius: 6,
+            borderColor: isDark ? '#1E293B' : '#fff',
+            borderWidth: 3,
+          },
+          label: {
+            show: chartData.length > 1,
+            formatter: '{d}%',
+            color: isDark ? '#94A3B8' : '#64748B',
+            fontSize: 12,
+            fontWeight: 500,
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 14,
+              fontWeight: 'bold',
+            },
+            itemStyle: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.2)',
+            }
+          },
+          labelLine: {
+            lineStyle: {
+              color: isDark ? 'rgba(148,163,184,0.3)' : '#d9d9d9',
+            }
+          },
+          data: chartData,
+          animationDuration: 1500,
+          animationEasing: 'cubicOut',
+        },
+      ],
+    };
+  };
+
+  // محاسبه درصدها برای Progress bar
+  const totalTickets = stats.total || 1;
+  const openPercent = Math.round((stats.open / totalTickets) * 100);
+  const inProgressPercent = Math.round((stats.inProgress / totalTickets) * 100);
+  const resolvedPercent = Math.round((stats.resolved / totalTickets) * 100);
+  const closedPercent = Math.round((stats.closed / totalTickets) * 100);
+
   if (!user) {
     return (
       <div style={{ padding: 24 }}>
@@ -210,7 +363,6 @@ export default function Dashboard() {
           borderRadius: 16,
           background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
           border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-          backdropFilter: isDark ? 'blur(10px)' : 'none'
         }}>
           <Empty 
             description={texts.notLoggedIn}
@@ -225,7 +377,6 @@ export default function Dashboard() {
     );
   }
 
-  // دریافت تاریخ
   const getFormattedDate = () => {
     return formatCalendarDate(new Date(), isPersian ? 'fa' : 'en', {
       withTime: false,
@@ -326,9 +477,7 @@ export default function Dashboard() {
                 borderRadius: 16,
                 background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
                 border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-                backdropFilter: isDark ? 'blur(10px)' : 'none',
                 transition: 'all 0.3s ease',
-                cursor: 'default'
               }}
               hoverable
             >
@@ -393,7 +542,6 @@ export default function Dashboard() {
           borderRadius: 16,
           background: isDark ? 'rgba(30,41,59,0.6)' : '#fff',
           border: isDark ? '1px solid rgba(148,163,184,.12)' : '1px solid #f0f0f0',
-          backdropFilter: isDark ? 'blur(10px)' : 'none'
         }}
       >
         {loading ? (
@@ -403,15 +551,18 @@ export default function Dashboard() {
             dataSource={recent}
             renderItem={(item) => {
               const status = statusConfig[item.status] || statusConfig.open;
-              // فرمت تاریخ بر اساس زبان
               const formatDate = (date) => {
                 return formatCalendarDate(date, isPersian ? 'fa' : 'en');
               };
               const getRelativeTime = (date) => {
-                if (isPersian) {
-                  return dayjs(date).locale('fa').fromNow();
+                try {
+                  if (isPersian) {
+                    return dayjs(date).locale('fa').fromNow();
+                  }
+                  return dayjs(date).locale('en').fromNow();
+                } catch {
+                  return isPersian ? 'چندی پیش' : 'recently';
                 }
-                return dayjs(date).locale('en').fromNow();
               };
               return (
                 <List.Item
@@ -532,45 +683,30 @@ export default function Dashboard() {
         )}
       </Card>
 
-      {/* استایل‌های اضافی */}
       <style>{`
-        .ant-typography, 
-        .ant-statistic-title, 
-        .ant-statistic-content,
-        .ant-descriptions-item-label,
-        .ant-descriptions-item-content,
-        .ant-list-item-meta-title,
-        .ant-list-item-meta-description {
-          font-family: inherit !important;
-        }
-
-        .ltr-text {
-          direction: ltr;
-          unicode-bidi: embed;
-          display: inline-block;
-        }
-
-        .ant-list-item-meta-description .ant-space-item {
-          font-family: inherit !important;
-        }
-
         .ant-card-hoverable:hover {
           box-shadow: ${isDark 
             ? '0 8px 24px rgba(0,0,0,0.4)' 
             : '0 8px 24px rgba(0,0,0,0.08)'} !important;
           transform: translateY(-2px);
         }
-
         .ant-list-item {
           transition: all 0.25s ease !important;
         }
-
         .ant-empty-description {
           color: ${isDark ? '#94A3B8' : '#64748B'} !important;
         }
-
-        .ant-statistic-title {
-          color: ${isDark ? '#94A3B8' : '#64748B'} !important;
+        .ant-typography, 
+        .ant-statistic-title, 
+        .ant-statistic-content,
+        .ant-list-item-meta-title,
+        .ant-list-item-meta-description {
+          font-family: inherit !important;
+        }
+        .ltr-text {
+          direction: ltr;
+          unicode-bidi: embed;
+          display: inline-block;
         }
       `}</style>
     </div>
