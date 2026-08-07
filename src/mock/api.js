@@ -171,6 +171,69 @@ export async function apiReplyTicket(ticketId, { authorId, authorName, body }) {
   return ticket;
 }
 
+// src/mock/api.js
+
+// تابع حذف تیکت
+export const apiDeleteTicket = (id) => {
+  return new Promise((resolve, reject) => {
+    // شبیه‌سازی تاخیر شبکه
+    setTimeout(() => {
+      try {
+        // دریافت تیکت‌ها از localStorage یا state
+        const tickets = JSON.parse(localStorage.getItem('tickets') || '[]');
+        
+        // پیدا کردن تیکت مورد نظر
+        const ticketIndex = tickets.findIndex(t => t.id === id);
+        
+        if (ticketIndex === -1) {
+          reject(new Error('تیکت یافت نشد'));
+          return;
+        }
+        
+        // حذف تیکت
+        tickets.splice(ticketIndex, 1);
+        
+        // ذخیره مجدد در localStorage
+        localStorage.setItem('tickets', JSON.stringify(tickets));
+        
+        resolve({ success: true, message: 'تیکت با موفقیت حذف شد' });
+      } catch (error) {
+        reject(error);
+      }
+    }, 500); // تاخیر 500 میلی‌ثانیه برای شبیه‌سازی
+  });
+};
+
+// اگر از دیتابیس mock استفاده می‌کنید
+let mockTickets = [
+  {
+    id: '1',
+    subject: 'مشکل در ورود به سیستم',
+    status: 'open',
+    priority: 'high',
+    authorName: 'کاربر ۱',
+    createdAt: '2024-01-15T10:30:00',
+    description: 'توضیحات تیکت...'
+  },
+  // ... تیکت‌های دیگر
+];
+
+export const apiDeleteTicketV2 = (id) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const index = mockTickets.findIndex(t => t.id === id);
+      
+      if (index === -1) {
+        reject({ message: 'تیکت یافت نشد' });
+        return;
+      }
+      
+      mockTickets.splice(index, 1);
+      resolve({ success: true });
+    }, 500);
+  });
+};
+
 export async function apiSetTicketStatus(ticketId, status) {
   await wait();
   const db = getDb();

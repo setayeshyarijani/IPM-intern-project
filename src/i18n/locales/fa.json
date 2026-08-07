@@ -8,6 +8,23 @@
     "reports": "گزارش‌ها",
     "logout": "خروج"
   },
+  "tickets": {
+    "statusUpdated": "وضعیت تیکت با موفقیت به‌روزرسانی شد",
+    "deleteSuccess": "تیکت با موفقیت حذف شد",
+    "deleteConfirm": "آیا از حذف این تیکت مطمئن هستید؟",
+    "editStatus": "ویرایش وضعیت",
+    "currentStatus": "وضعیت فعلی",
+    "newStatus": "وضعیت جدید",
+    "selectStatus": "وضعیت را انتخاب کنید",
+    "noMessages": "هیچ پیامی در این تیکت وجود ندارد",
+    "replyPlaceholder": "پاسخ خود را وارد کنید...",
+    "replySuccess": "پاسخ شما با موفقیت ارسال شد",
+    "sendReply": "ارسال پاسخ",
+    "ticketClosed": "این تیکت بسته شده است",
+    "cannotReply": "شما نمی‌توانید به تیکت بسته شده پاسخ دهید",
+    "yourMessage": "شما",
+    "admin": "ادمین"
+  },
   "auth": {
     "login": "ورود",
     "register": "ثبت‌نام",

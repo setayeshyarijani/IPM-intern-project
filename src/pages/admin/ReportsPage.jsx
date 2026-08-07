@@ -98,24 +98,30 @@ export default function ReportsPage() {
 
   // تاریخ بر اساس زبان
   const getFormattedDate = () => {
-    const now = new Date();
-    if (isPersian) {
-      return now.toLocaleDateString('fa-IR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-    }
-    return now.toLocaleDateString('en-US', {
+  const now = new Date();
+  
+  if (isPersian) {
+    // تاریخ شمسی با استفاده از locale 'fa-IR'
+    return new Intl.DateTimeFormat('fa-IR', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
+      minute: '2-digit',
+      hour12: false,
+    }).format(now);
+  }
+  
+  // تاریخ میلادی
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(now);
+};
 
   return (
     <div style={{ padding: '24px' }}>
