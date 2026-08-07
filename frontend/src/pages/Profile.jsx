@@ -46,9 +46,9 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeModeContext';
-import dayjs from 'dayjs';
 import Ltr from '../components/Ltr';
 import { useNavigate } from 'react-router-dom';
+import { formatCalendarDate } from '../utils/date';
 
 const { Title, Text } = Typography;
 const { TabPane } = Tabs;
@@ -372,7 +372,7 @@ export default function Profile() {
                     <Text style={{ color: 'rgba(255,255,255,0.6)', fontSize: 11 }}>{texts.memberSince}</Text>
                     <div style={{ marginTop: 4 }}>
                       <Text style={{ color: '#fff', fontSize: 13 }}>
-                        <Ltr>{dayjs(user.createdAt).format('YYYY/MM/DD')}</Ltr>
+                        <Ltr>{formatCalendarDate(user.createdAt, isPersian ? 'fa' : 'en', { withTime: false })}</Ltr>
                       </Text>
                     </div>
                   </div>
@@ -387,7 +387,7 @@ export default function Profile() {
                     <Text style={{ color: 'rgba(255,255,255,0.6)', fontSize: 11 }}>{texts.lastLogin}</Text>
                     <div style={{ marginTop: 4 }}>
                       <Text style={{ color: '#fff', fontSize: 13 }}>
-                        <Ltr>{user.lastLogin ? dayjs(user.lastLogin).format('YYYY/MM/DD HH:mm') : '---'}</Ltr>
+                        <Ltr>{user.lastLogin ? formatCalendarDate(user.lastLogin, isPersian ? 'fa' : 'en', { withTime: true }) : '---'}</Ltr>
                       </Text>
                     </div>
                   </div>
@@ -425,10 +425,10 @@ export default function Profile() {
               <Descriptions.Item label={texts.role}>{getRoleTag(user.role)}</Descriptions.Item>
               <Descriptions.Item label={texts.status}>{getStatusTag(user.status)}</Descriptions.Item>
               <Descriptions.Item label={texts.memberSince}>
-                <Ltr>{dayjs(user.createdAt).format('YYYY/MM/DD HH:mm')}</Ltr>
+                <Ltr>{formatCalendarDate(user.createdAt, isPersian ? 'fa' : 'en')}</Ltr>
               </Descriptions.Item>
               <Descriptions.Item label={texts.lastLogin}>
-                <Ltr>{user.lastLogin ? dayjs(user.lastLogin).format('YYYY/MM/DD HH:mm') : '---'}</Ltr>
+                <Ltr>{user.lastLogin ? formatCalendarDate(user.lastLogin, isPersian ? 'fa' : 'en', { withTime: true }) : '---'}</Ltr>
               </Descriptions.Item>
             </Descriptions>
           </TabPane>

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Typography, Tag, Button, Popconfirm, Space, Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 import DataTable from '../../components/DataTable';
-import { apiListUsers, apiSetUserStatus } from '../../mock/api';
+import { apiListUsers, apiSetUserStatus } from '../../api/client';
 import Ltr from '../../components/Ltr';
 import { useThemeMode } from '../../context/ThemeModeContext';
+import { formatCalendarDate } from '../../utils/date';
 import {
   UserOutlined,
   CheckCircleOutlined,
@@ -18,7 +18,8 @@ import {
 } from '@ant-design/icons';
 
 export default function UsersPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isPersian = i18n.language === 'fa';
   const { mode } = useThemeMode();
   const isDark = mode === 'dark';
   const [reloadKey, setReloadKey] = useState(0);
@@ -151,7 +152,7 @@ export default function UsersPage() {
             color: isDark ? '#94A3B8' : '#64748B',
             fontSize: '13px'
           }}>
-            {dayjs(val).format('YYYY/MM/DD')}
+            {formatCalendarDate(val, isPersian ? 'fa' : 'en', { withTime: false })}
           </span>
         </Ltr>
       ),

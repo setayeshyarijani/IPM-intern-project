@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Typography, Row, Col, Card, Statistic, Skeleton, Space, Divider, Progress } from 'antd';
+import { Typography, Row, Col, Card, Skeleton, Space, Divider, Progress, Button, message } from 'antd';
 import { 
   UserOutlined, 
   IdcardOutlined, 
@@ -7,9 +7,10 @@ import {
   CheckCircleOutlined 
 } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { apiGetReports } from '../../mock/api';
+import { apiGetReports } from '../../api/client';
 import Ltr from '../../components/Ltr';
 import { useThemeMode } from '../../context/ThemeModeContext';
+import { formatCalendarDate } from '../../utils/date';
 
 export default function ReportsPage() {
   const { i18n } = useTranslation();
@@ -17,6 +18,7 @@ export default function ReportsPage() {
   const isDark = mode === 'dark';
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
 
   // تشخیص زبان فارسی یا انگلیسی
   const isPersian = i18n.language === 'fa';
@@ -39,6 +41,26 @@ export default function ReportsPage() {
       .then(setStats)
       .finally(() => setLoading(false));
   }, []);
+
+  const loadReports = async () => {
+    setRefreshing(true);
+    try {
+      const result = await apiGetReports();
+      setStats(result);
+      message.success(isPersian ? 'گزارش‌ها به‌روزرسانی شد' : 'Reports refreshed');
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
+  const copySummary = async () => {
+    if (!stats) return;
+    const text = isPersian
+      ? `گزارش‌ها\nکل کاربران: ${stats.totalUsers}\nکل تیکت‌ها: ${stats.totalTickets}\nباز: ${stats.openTickets}\nبسته: ${stats.closedTickets}`
+      : `Reports\nUsers: ${stats.totalUsers}\nTickets: ${stats.totalTickets}\nOpen: ${stats.openTickets}\nClosed: ${stats.closedTickets}`;
+    await navigator.clipboard.writeText(text);
+    message.success(isPersian ? 'خلاصه کپی شد' : 'Summary copied');
+  };
 
   if (loading) {
     return (
@@ -98,30 +120,8 @@ export default function ReportsPage() {
 
   // تاریخ بر اساس زبان
   const getFormattedDate = () => {
-  const now = new Date();
-  
-  if (isPersian) {
-    // تاریخ شمسی با استفاده از locale 'fa-IR'
-    return new Intl.DateTimeFormat('fa-IR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    }).format(now);
-  }
-  
-  // تاریخ میلادی
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).format(now);
-};
+    return formatCalendarDate(new Date(), isPersian ? 'fa' : 'en');
+  };
 
   return (
     <div style={{ padding: '24px' }}>
@@ -138,6 +138,12 @@ export default function ReportsPage() {
           {texts.title}
         </Typography.Title>
         <Space>
+          <Button onClick={copySummary} disabled={!stats}>
+            {isPersian ? 'کپی خلاصه' : 'Copy Summary'}
+          </Button>
+          <Button onClick={loadReports} loading={refreshing}>
+            {isPersian ? 'به‌روزرسانی' : 'Refresh'}
+          </Button>
           <Typography.Text type="secondary">
             {texts.lastUpdated}: <Ltr>{getFormattedDate()}</Ltr>
           </Typography.Text>

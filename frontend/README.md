@@ -1,17 +1,19 @@
 # Intern Support System
 
-Frontend-only support system built for the internship's first milestone:
-React + Ant Design, Persian/English support, and a mock backend so the UI
-can be built and tested without a real API.
+Frontend app for the internship support system.
+
+The project now has two top-level parts:
+
+- `frontend/` - the React + Vite UI
+- `backend/` - a small standalone HTTP API on its own port
 
 ## Stack
 - React 18 + Vite
 - Ant Design 5 (RTL-aware via `ConfigProvider`)
 - react-router-dom v6
 - react-i18next (fa / en)
-- A mock backend in `src/mock/` — persists to `localStorage`, simulates
-  network delay, and supports server-side pagination/search/sort exactly
-  like a real API would.
+- A standalone backend server in `../backend/` that serves auth, users,
+  tickets, and reports over HTTP.
 
 ## Getting started
 ```bash
@@ -19,6 +21,11 @@ npm install
 npm run dev
 ```
 Then open the printed local URL.
+
+To start the backend in a second terminal:
+```bash
+npm run dev:backend
+```
 
 ## Login
 Two ways in:
@@ -29,7 +36,8 @@ Two ways in:
 ```
 src/
   i18n/            fa.json / en.json + i18next setup
-  mock/            fake database + API functions (the "backend")
+  api/             HTTP client for the backend
+  mock/            legacy local mock data helpers
   context/         AuthContext (session), LocaleContext (fa/en + RTL)
   components/      DataTable — reusable paginated/searchable/sortable table
   layouts/         AuthLayout (login/register), AppLayout (sidebar + header)
@@ -40,12 +48,12 @@ src/
     admin/         users management, reports/stats
 ```
 
-## How the mock backend works
-Every "API" call in `src/mock/api.js` is `async`, adds an artificial
-delay, and only returns the slice of data the caller asked for — the
-same contract a real paginated endpoint would have. Swapping in a real
-backend later means replacing the contents of `api.js` with real
-`fetch` calls; nothing above that layer needs to change.
+## Backend
+The backend is a standalone Node HTTP server that listens on port 4000
+by default. The frontend talks to it through `src/api/client.js`.
+
+If you want to point the UI at another backend URL, set
+`VITE_API_BASE_URL` before running the frontend.
 
 ## Tables
 `src/components/DataTable.jsx` is the single implementation used by

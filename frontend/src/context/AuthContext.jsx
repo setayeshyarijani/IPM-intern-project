@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { apiLogin, apiRegister, apiUpdateProfile } from '../mock/api';
+import { apiLogin, apiRegister, apiUpdateProfile } from '../api/client';
 
 const AuthContext = createContext(null);
 const SESSION_KEY = 'mock_session_v1';

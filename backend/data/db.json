@@ -1,0 +1,1635 @@
+{
+  "users": [
+    {
+      "id": "u-admin",
+      "fullName": "System Admin",
+      "email": "admin@example.com",
+      "password": "admin123",
+      "role": "admin",
+      "status": "active",
+      "createdAt": "2025-01-10T08:00:00.000Z"
+    },
+    {
+      "id": "u-1",
+      "fullName": "Ali Karimi",
+      "email": "user1@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-08-04T08:35:26.246Z"
+    },
+    {
+      "id": "u-2",
+      "fullName": "Maryam Hosseini",
+      "email": "user2@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-08-01T08:35:26.246Z"
+    },
+    {
+      "id": "u-3",
+      "fullName": "Reza Moradi",
+      "email": "user3@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-29T08:35:26.246Z"
+    },
+    {
+      "id": "u-4",
+      "fullName": "Niloofar Jafari",
+      "email": "user4@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-26T08:35:26.246Z"
+    },
+    {
+      "id": "u-5",
+      "fullName": "Amir Rezaei",
+      "email": "user5@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-23T08:35:26.246Z"
+    },
+    {
+      "id": "u-6",
+      "fullName": "Fatemeh Sadeghi",
+      "email": "user6@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-20T08:35:26.246Z"
+    },
+    {
+      "id": "u-7",
+      "fullName": "Hossein Ghasemi",
+      "email": "user7@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-17T08:35:26.246Z"
+    },
+    {
+      "id": "u-8",
+      "fullName": "Zahra Rostami",
+      "email": "user8@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-14T08:35:26.246Z"
+    },
+    {
+      "id": "u-9",
+      "fullName": "Mohammad Bagheri",
+      "email": "user9@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-11T08:35:26.246Z"
+    },
+    {
+      "id": "u-10",
+      "fullName": "Elham Ahmadi",
+      "email": "user10@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-08T08:35:26.246Z"
+    },
+    {
+      "id": "u-11",
+      "fullName": "Kian Karimi",
+      "email": "user11@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "disabled",
+      "createdAt": "2026-07-05T08:35:26.246Z"
+    },
+    {
+      "id": "u-12",
+      "fullName": "Parisa Hosseini",
+      "email": "user12@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-07-02T08:35:26.246Z"
+    },
+    {
+      "id": "u-13",
+      "fullName": "Omid Moradi",
+      "email": "user13@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-29T08:35:26.246Z"
+    },
+    {
+      "id": "u-14",
+      "fullName": "Leila Jafari",
+      "email": "user14@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-26T08:35:26.246Z"
+    },
+    {
+      "id": "u-15",
+      "fullName": "Arash Rezaei",
+      "email": "user15@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-23T08:35:26.246Z"
+    },
+    {
+      "id": "u-16",
+      "fullName": "Sara Sadeghi",
+      "email": "user16@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-20T08:35:26.246Z"
+    },
+    {
+      "id": "u-17",
+      "fullName": "Ali Ghasemi",
+      "email": "user17@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-17T08:35:26.246Z"
+    },
+    {
+      "id": "u-18",
+      "fullName": "Maryam Rostami",
+      "email": "user18@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-14T08:35:26.246Z"
+    },
+    {
+      "id": "u-19",
+      "fullName": "Reza Bagheri",
+      "email": "user19@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-11T08:35:26.246Z"
+    },
+    {
+      "id": "u-20",
+      "fullName": "Niloofar Ahmadi",
+      "email": "user20@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-08T08:35:26.246Z"
+    },
+    {
+      "id": "u-21",
+      "fullName": "Amir Karimi",
+      "email": "user21@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-06-05T08:35:26.246Z"
+    },
+    {
+      "id": "u-22",
+      "fullName": "Fatemeh Hosseini",
+      "email": "user22@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "disabled",
+      "createdAt": "2026-06-02T08:35:26.246Z"
+    },
+    {
+      "id": "u-23",
+      "fullName": "Hossein Moradi",
+      "email": "user23@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-30T08:35:26.246Z"
+    },
+    {
+      "id": "u-24",
+      "fullName": "Zahra Jafari",
+      "email": "user24@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-27T08:35:26.246Z"
+    },
+    {
+      "id": "u-25",
+      "fullName": "Mohammad Rezaei",
+      "email": "user25@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-24T08:35:26.246Z"
+    },
+    {
+      "id": "u-26",
+      "fullName": "Elham Sadeghi",
+      "email": "user26@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-21T08:35:26.246Z"
+    },
+    {
+      "id": "u-27",
+      "fullName": "Kian Ghasemi",
+      "email": "user27@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-18T08:35:26.246Z"
+    },
+    {
+      "id": "u-28",
+      "fullName": "Parisa Rostami",
+      "email": "user28@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-15T08:35:26.246Z"
+    },
+    {
+      "id": "u-29",
+      "fullName": "Omid Bagheri",
+      "email": "user29@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-12T08:35:26.246Z"
+    },
+    {
+      "id": "u-30",
+      "fullName": "Leila Ahmadi",
+      "email": "user30@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-09T08:35:26.246Z"
+    },
+    {
+      "id": "u-31",
+      "fullName": "Arash Karimi",
+      "email": "user31@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-06T08:35:26.246Z"
+    },
+    {
+      "id": "u-32",
+      "fullName": "Sara Hosseini",
+      "email": "user32@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-05-03T08:35:26.246Z"
+    },
+    {
+      "id": "u-33",
+      "fullName": "Ali Moradi",
+      "email": "user33@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "disabled",
+      "createdAt": "2026-04-30T08:35:26.246Z"
+    },
+    {
+      "id": "u-34",
+      "fullName": "Maryam Jafari",
+      "email": "user34@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-27T08:35:26.246Z"
+    },
+    {
+      "id": "u-35",
+      "fullName": "Reza Rezaei",
+      "email": "user35@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-24T08:35:26.246Z"
+    },
+    {
+      "id": "u-36",
+      "fullName": "Niloofar Sadeghi",
+      "email": "user36@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-21T08:35:26.246Z"
+    },
+    {
+      "id": "u-37",
+      "fullName": "Amir Ghasemi",
+      "email": "user37@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-18T08:35:26.246Z"
+    },
+    {
+      "id": "u-38",
+      "fullName": "Fatemeh Rostami",
+      "email": "user38@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-15T08:35:26.246Z"
+    },
+    {
+      "id": "u-39",
+      "fullName": "Hossein Bagheri",
+      "email": "user39@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-12T08:35:26.246Z"
+    },
+    {
+      "id": "u-40",
+      "fullName": "Zahra Ahmadi",
+      "email": "user40@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-09T08:35:26.246Z"
+    },
+    {
+      "id": "u-41",
+      "fullName": "Mohammad Karimi",
+      "email": "user41@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-06T08:35:26.246Z"
+    },
+    {
+      "id": "u-42",
+      "fullName": "Elham Hosseini",
+      "email": "user42@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-04-03T08:35:26.246Z"
+    },
+    {
+      "id": "u-43",
+      "fullName": "Kian Moradi",
+      "email": "user43@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-03-31T08:35:26.246Z"
+    },
+    {
+      "id": "u-44",
+      "fullName": "Parisa Jafari",
+      "email": "user44@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "disabled",
+      "createdAt": "2026-03-28T08:35:26.246Z"
+    },
+    {
+      "id": "u-45",
+      "fullName": "Omid Rezaei",
+      "email": "user45@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-03-25T08:35:26.246Z"
+    },
+    {
+      "id": "u-46",
+      "fullName": "Leila Sadeghi",
+      "email": "user46@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-03-22T08:35:26.246Z"
+    },
+    {
+      "id": "u-47",
+      "fullName": "Arash Ghasemi",
+      "email": "user47@example.com",
+      "password": "password123",
+      "role": "user",
+      "status": "active",
+      "createdAt": "2026-03-19T08:35:26.246Z"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "t-1",
+      "subject": "Dashboard not loading #1",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-08-06T20:35:26.246Z",
+      "authorId": "u-2",
+      "authorName": "Maryam Hosseini",
+      "messages": [
+        {
+          "id": "m-1-1",
+          "authorId": "u-2",
+          "authorName": "Maryam Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-06T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-2",
+      "subject": "Question about billing #2",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-08-06T08:35:26.246Z",
+      "authorId": "u-3",
+      "authorName": "Reza Moradi",
+      "messages": [
+        {
+          "id": "m-2-1",
+          "authorId": "u-3",
+          "authorName": "Reza Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-06T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-3",
+      "subject": "Feature request: dark mode #3",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-08-05T20:35:26.246Z",
+      "authorId": "u-4",
+      "authorName": "Niloofar Jafari",
+      "messages": [
+        {
+          "id": "m-3-1",
+          "authorId": "u-4",
+          "authorName": "Niloofar Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-05T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-4",
+      "subject": "Bug in profile page #4",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-08-05T08:35:26.246Z",
+      "authorId": "u-5",
+      "authorName": "Amir Rezaei",
+      "messages": [
+        {
+          "id": "m-4-1",
+          "authorId": "u-5",
+          "authorName": "Amir Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-05T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-5",
+      "subject": "Unable to upload avatar #5",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-08-04T20:35:26.246Z",
+      "authorId": "u-6",
+      "authorName": "Fatemeh Sadeghi",
+      "messages": [
+        {
+          "id": "m-5-1",
+          "authorId": "u-6",
+          "authorName": "Fatemeh Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-04T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-6",
+      "subject": "Ticket status not updating #6",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-08-04T08:35:26.246Z",
+      "authorId": "u-7",
+      "authorName": "Hossein Ghasemi",
+      "messages": [
+        {
+          "id": "m-6-1",
+          "authorId": "u-7",
+          "authorName": "Hossein Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-04T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-7",
+      "subject": "Slow page load times #7",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-08-03T20:35:26.246Z",
+      "authorId": "u-8",
+      "authorName": "Zahra Rostami",
+      "messages": [
+        {
+          "id": "m-7-1",
+          "authorId": "u-8",
+          "authorName": "Zahra Rostami",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-03T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-8",
+      "subject": "Need to change my email #8",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-08-03T08:35:26.246Z",
+      "authorId": "u-9",
+      "authorName": "Mohammad Bagheri",
+      "messages": [
+        {
+          "id": "m-8-1",
+          "authorId": "u-9",
+          "authorName": "Mohammad Bagheri",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-03T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-9",
+      "subject": "Export data as CSV #9",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-08-02T20:35:26.246Z",
+      "authorId": "u-10",
+      "authorName": "Elham Ahmadi",
+      "messages": [
+        {
+          "id": "m-9-1",
+          "authorId": "u-10",
+          "authorName": "Elham Ahmadi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-02T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-10",
+      "subject": "Cannot reset my password #10",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-08-02T08:35:26.246Z",
+      "authorId": "u-11",
+      "authorName": "Kian Karimi",
+      "messages": [
+        {
+          "id": "m-10-1",
+          "authorId": "u-11",
+          "authorName": "Kian Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-02T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-11",
+      "subject": "Dashboard not loading #11",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-08-01T20:35:26.246Z",
+      "authorId": "u-12",
+      "authorName": "Parisa Hosseini",
+      "messages": [
+        {
+          "id": "m-11-1",
+          "authorId": "u-12",
+          "authorName": "Parisa Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-01T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-12",
+      "subject": "Question about billing #12",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-08-01T08:35:26.246Z",
+      "authorId": "u-13",
+      "authorName": "Omid Moradi",
+      "messages": [
+        {
+          "id": "m-12-1",
+          "authorId": "u-13",
+          "authorName": "Omid Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-08-01T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-13",
+      "subject": "Feature request: dark mode #13",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-31T20:35:26.246Z",
+      "authorId": "u-14",
+      "authorName": "Leila Jafari",
+      "messages": [
+        {
+          "id": "m-13-1",
+          "authorId": "u-14",
+          "authorName": "Leila Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-31T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-14",
+      "subject": "Bug in profile page #14",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-31T08:35:26.246Z",
+      "authorId": "u-15",
+      "authorName": "Arash Rezaei",
+      "messages": [
+        {
+          "id": "m-14-1",
+          "authorId": "u-15",
+          "authorName": "Arash Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-31T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-15",
+      "subject": "Unable to upload avatar #15",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-30T20:35:26.246Z",
+      "authorId": "u-16",
+      "authorName": "Sara Sadeghi",
+      "messages": [
+        {
+          "id": "m-15-1",
+          "authorId": "u-16",
+          "authorName": "Sara Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-30T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-16",
+      "subject": "Ticket status not updating #16",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-30T08:35:26.246Z",
+      "authorId": "u-17",
+      "authorName": "Ali Ghasemi",
+      "messages": [
+        {
+          "id": "m-16-1",
+          "authorId": "u-17",
+          "authorName": "Ali Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-30T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-17",
+      "subject": "Slow page load times #17",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-29T20:35:26.246Z",
+      "authorId": "u-18",
+      "authorName": "Maryam Rostami",
+      "messages": [
+        {
+          "id": "m-17-1",
+          "authorId": "u-18",
+          "authorName": "Maryam Rostami",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-29T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-18",
+      "subject": "Need to change my email #18",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-29T08:35:26.246Z",
+      "authorId": "u-19",
+      "authorName": "Reza Bagheri",
+      "messages": [
+        {
+          "id": "m-18-1",
+          "authorId": "u-19",
+          "authorName": "Reza Bagheri",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-29T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-19",
+      "subject": "Export data as CSV #19",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-28T20:35:26.246Z",
+      "authorId": "u-20",
+      "authorName": "Niloofar Ahmadi",
+      "messages": [
+        {
+          "id": "m-19-1",
+          "authorId": "u-20",
+          "authorName": "Niloofar Ahmadi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-28T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-20",
+      "subject": "Cannot reset my password #20",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-28T08:35:26.246Z",
+      "authorId": "u-21",
+      "authorName": "Amir Karimi",
+      "messages": [
+        {
+          "id": "m-20-1",
+          "authorId": "u-21",
+          "authorName": "Amir Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-28T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-21",
+      "subject": "Dashboard not loading #21",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-27T20:35:26.246Z",
+      "authorId": "u-22",
+      "authorName": "Fatemeh Hosseini",
+      "messages": [
+        {
+          "id": "m-21-1",
+          "authorId": "u-22",
+          "authorName": "Fatemeh Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-27T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-22",
+      "subject": "Question about billing #22",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-27T08:35:26.246Z",
+      "authorId": "u-23",
+      "authorName": "Hossein Moradi",
+      "messages": [
+        {
+          "id": "m-22-1",
+          "authorId": "u-23",
+          "authorName": "Hossein Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-27T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-23",
+      "subject": "Feature request: dark mode #23",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-26T20:35:26.246Z",
+      "authorId": "u-24",
+      "authorName": "Zahra Jafari",
+      "messages": [
+        {
+          "id": "m-23-1",
+          "authorId": "u-24",
+          "authorName": "Zahra Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-26T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-24",
+      "subject": "Bug in profile page #24",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-26T08:35:26.246Z",
+      "authorId": "u-25",
+      "authorName": "Mohammad Rezaei",
+      "messages": [
+        {
+          "id": "m-24-1",
+          "authorId": "u-25",
+          "authorName": "Mohammad Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-26T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-25",
+      "subject": "Unable to upload avatar #25",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-25T20:35:26.246Z",
+      "authorId": "u-26",
+      "authorName": "Elham Sadeghi",
+      "messages": [
+        {
+          "id": "m-25-1",
+          "authorId": "u-26",
+          "authorName": "Elham Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-25T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-26",
+      "subject": "Ticket status not updating #26",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-25T08:35:26.246Z",
+      "authorId": "u-27",
+      "authorName": "Kian Ghasemi",
+      "messages": [
+        {
+          "id": "m-26-1",
+          "authorId": "u-27",
+          "authorName": "Kian Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-25T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-27",
+      "subject": "Slow page load times #27",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-24T20:35:26.246Z",
+      "authorId": "u-28",
+      "authorName": "Parisa Rostami",
+      "messages": [
+        {
+          "id": "m-27-1",
+          "authorId": "u-28",
+          "authorName": "Parisa Rostami",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-24T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-28",
+      "subject": "Need to change my email #28",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-24T08:35:26.246Z",
+      "authorId": "u-29",
+      "authorName": "Omid Bagheri",
+      "messages": [
+        {
+          "id": "m-28-1",
+          "authorId": "u-29",
+          "authorName": "Omid Bagheri",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-24T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-29",
+      "subject": "Export data as CSV #29",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-23T20:35:26.246Z",
+      "authorId": "u-30",
+      "authorName": "Leila Ahmadi",
+      "messages": [
+        {
+          "id": "m-29-1",
+          "authorId": "u-30",
+          "authorName": "Leila Ahmadi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-23T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-30",
+      "subject": "Cannot reset my password #30",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-23T08:35:26.246Z",
+      "authorId": "u-31",
+      "authorName": "Arash Karimi",
+      "messages": [
+        {
+          "id": "m-30-1",
+          "authorId": "u-31",
+          "authorName": "Arash Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-23T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-31",
+      "subject": "Dashboard not loading #31",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-22T20:35:26.246Z",
+      "authorId": "u-32",
+      "authorName": "Sara Hosseini",
+      "messages": [
+        {
+          "id": "m-31-1",
+          "authorId": "u-32",
+          "authorName": "Sara Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-22T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-32",
+      "subject": "Question about billing #32",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-22T08:35:26.246Z",
+      "authorId": "u-33",
+      "authorName": "Ali Moradi",
+      "messages": [
+        {
+          "id": "m-32-1",
+          "authorId": "u-33",
+          "authorName": "Ali Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-22T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-33",
+      "subject": "Feature request: dark mode #33",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-21T20:35:26.246Z",
+      "authorId": "u-34",
+      "authorName": "Maryam Jafari",
+      "messages": [
+        {
+          "id": "m-33-1",
+          "authorId": "u-34",
+          "authorName": "Maryam Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-21T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-34",
+      "subject": "Bug in profile page #34",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-21T08:35:26.246Z",
+      "authorId": "u-35",
+      "authorName": "Reza Rezaei",
+      "messages": [
+        {
+          "id": "m-34-1",
+          "authorId": "u-35",
+          "authorName": "Reza Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-21T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-35",
+      "subject": "Unable to upload avatar #35",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-20T20:35:26.246Z",
+      "authorId": "u-36",
+      "authorName": "Niloofar Sadeghi",
+      "messages": [
+        {
+          "id": "m-35-1",
+          "authorId": "u-36",
+          "authorName": "Niloofar Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-20T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-36",
+      "subject": "Ticket status not updating #36",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-20T08:35:26.246Z",
+      "authorId": "u-37",
+      "authorName": "Amir Ghasemi",
+      "messages": [
+        {
+          "id": "m-36-1",
+          "authorId": "u-37",
+          "authorName": "Amir Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-20T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-37",
+      "subject": "Slow page load times #37",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-19T20:35:26.246Z",
+      "authorId": "u-38",
+      "authorName": "Fatemeh Rostami",
+      "messages": [
+        {
+          "id": "m-37-1",
+          "authorId": "u-38",
+          "authorName": "Fatemeh Rostami",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-19T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-38",
+      "subject": "Need to change my email #38",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-19T08:35:26.246Z",
+      "authorId": "u-39",
+      "authorName": "Hossein Bagheri",
+      "messages": [
+        {
+          "id": "m-38-1",
+          "authorId": "u-39",
+          "authorName": "Hossein Bagheri",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-19T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-39",
+      "subject": "Export data as CSV #39",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-18T20:35:26.246Z",
+      "authorId": "u-40",
+      "authorName": "Zahra Ahmadi",
+      "messages": [
+        {
+          "id": "m-39-1",
+          "authorId": "u-40",
+          "authorName": "Zahra Ahmadi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-18T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-40",
+      "subject": "Cannot reset my password #40",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-18T08:35:26.246Z",
+      "authorId": "u-41",
+      "authorName": "Mohammad Karimi",
+      "messages": [
+        {
+          "id": "m-40-1",
+          "authorId": "u-41",
+          "authorName": "Mohammad Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-18T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-41",
+      "subject": "Dashboard not loading #41",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-17T20:35:26.246Z",
+      "authorId": "u-42",
+      "authorName": "Elham Hosseini",
+      "messages": [
+        {
+          "id": "m-41-1",
+          "authorId": "u-42",
+          "authorName": "Elham Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-17T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-42",
+      "subject": "Question about billing #42",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-17T08:35:26.246Z",
+      "authorId": "u-43",
+      "authorName": "Kian Moradi",
+      "messages": [
+        {
+          "id": "m-42-1",
+          "authorId": "u-43",
+          "authorName": "Kian Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-17T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-43",
+      "subject": "Feature request: dark mode #43",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-16T20:35:26.246Z",
+      "authorId": "u-44",
+      "authorName": "Parisa Jafari",
+      "messages": [
+        {
+          "id": "m-43-1",
+          "authorId": "u-44",
+          "authorName": "Parisa Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-16T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-44",
+      "subject": "Bug in profile page #44",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-16T08:35:26.246Z",
+      "authorId": "u-45",
+      "authorName": "Omid Rezaei",
+      "messages": [
+        {
+          "id": "m-44-1",
+          "authorId": "u-45",
+          "authorName": "Omid Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-16T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-45",
+      "subject": "Unable to upload avatar #45",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-15T20:35:26.246Z",
+      "authorId": "u-46",
+      "authorName": "Leila Sadeghi",
+      "messages": [
+        {
+          "id": "m-45-1",
+          "authorId": "u-46",
+          "authorName": "Leila Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-15T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-46",
+      "subject": "Ticket status not updating #46",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-15T08:35:26.246Z",
+      "authorId": "u-47",
+      "authorName": "Arash Ghasemi",
+      "messages": [
+        {
+          "id": "m-46-1",
+          "authorId": "u-47",
+          "authorName": "Arash Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-15T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-47",
+      "subject": "Slow page load times #47",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-14T20:35:26.246Z",
+      "authorId": "u-1",
+      "authorName": "Ali Karimi",
+      "messages": [
+        {
+          "id": "m-47-1",
+          "authorId": "u-1",
+          "authorName": "Ali Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-14T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-48",
+      "subject": "Need to change my email #48",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-14T08:35:26.246Z",
+      "authorId": "u-2",
+      "authorName": "Maryam Hosseini",
+      "messages": [
+        {
+          "id": "m-48-1",
+          "authorId": "u-2",
+          "authorName": "Maryam Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-14T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-49",
+      "subject": "Export data as CSV #49",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-13T20:35:26.246Z",
+      "authorId": "u-3",
+      "authorName": "Reza Moradi",
+      "messages": [
+        {
+          "id": "m-49-1",
+          "authorId": "u-3",
+          "authorName": "Reza Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-13T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-50",
+      "subject": "Cannot reset my password #50",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-13T08:35:26.246Z",
+      "authorId": "u-4",
+      "authorName": "Niloofar Jafari",
+      "messages": [
+        {
+          "id": "m-50-1",
+          "authorId": "u-4",
+          "authorName": "Niloofar Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-13T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-51",
+      "subject": "Dashboard not loading #51",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-12T20:35:26.246Z",
+      "authorId": "u-5",
+      "authorName": "Amir Rezaei",
+      "messages": [
+        {
+          "id": "m-51-1",
+          "authorId": "u-5",
+          "authorName": "Amir Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-12T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-52",
+      "subject": "Question about billing #52",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-12T08:35:26.246Z",
+      "authorId": "u-6",
+      "authorName": "Fatemeh Sadeghi",
+      "messages": [
+        {
+          "id": "m-52-1",
+          "authorId": "u-6",
+          "authorName": "Fatemeh Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-12T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-53",
+      "subject": "Feature request: dark mode #53",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-11T20:35:26.246Z",
+      "authorId": "u-7",
+      "authorName": "Hossein Ghasemi",
+      "messages": [
+        {
+          "id": "m-53-1",
+          "authorId": "u-7",
+          "authorName": "Hossein Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-11T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-54",
+      "subject": "Bug in profile page #54",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-11T08:35:26.246Z",
+      "authorId": "u-8",
+      "authorName": "Zahra Rostami",
+      "messages": [
+        {
+          "id": "m-54-1",
+          "authorId": "u-8",
+          "authorName": "Zahra Rostami",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-11T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-55",
+      "subject": "Unable to upload avatar #55",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-10T20:35:26.246Z",
+      "authorId": "u-9",
+      "authorName": "Mohammad Bagheri",
+      "messages": [
+        {
+          "id": "m-55-1",
+          "authorId": "u-9",
+          "authorName": "Mohammad Bagheri",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-10T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-56",
+      "subject": "Ticket status not updating #56",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-10T08:35:26.246Z",
+      "authorId": "u-10",
+      "authorName": "Elham Ahmadi",
+      "messages": [
+        {
+          "id": "m-56-1",
+          "authorId": "u-10",
+          "authorName": "Elham Ahmadi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-10T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-57",
+      "subject": "Slow page load times #57",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-09T20:35:26.246Z",
+      "authorId": "u-11",
+      "authorName": "Kian Karimi",
+      "messages": [
+        {
+          "id": "m-57-1",
+          "authorId": "u-11",
+          "authorName": "Kian Karimi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-09T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-58",
+      "subject": "Need to change my email #58",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-09T08:35:26.246Z",
+      "authorId": "u-12",
+      "authorName": "Parisa Hosseini",
+      "messages": [
+        {
+          "id": "m-58-1",
+          "authorId": "u-12",
+          "authorName": "Parisa Hosseini",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-09T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-59",
+      "subject": "Export data as CSV #59",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-08T20:35:26.246Z",
+      "authorId": "u-13",
+      "authorName": "Omid Moradi",
+      "messages": [
+        {
+          "id": "m-59-1",
+          "authorId": "u-13",
+          "authorName": "Omid Moradi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-08T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-60",
+      "subject": "Cannot reset my password #60",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-08T08:35:26.246Z",
+      "authorId": "u-14",
+      "authorName": "Leila Jafari",
+      "messages": [
+        {
+          "id": "m-60-1",
+          "authorId": "u-14",
+          "authorName": "Leila Jafari",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-08T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-61",
+      "subject": "Dashboard not loading #61",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "inProgress",
+      "priority": "medium",
+      "createdAt": "2026-07-07T20:35:26.246Z",
+      "authorId": "u-15",
+      "authorName": "Arash Rezaei",
+      "messages": [
+        {
+          "id": "m-61-1",
+          "authorId": "u-15",
+          "authorName": "Arash Rezaei",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-07T20:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-62",
+      "subject": "Question about billing #62",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "closed",
+      "priority": "high",
+      "createdAt": "2026-07-07T08:35:26.246Z",
+      "authorId": "u-16",
+      "authorName": "Sara Sadeghi",
+      "messages": [
+        {
+          "id": "m-62-1",
+          "authorId": "u-16",
+          "authorName": "Sara Sadeghi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-07T08:35:26.246Z"
+        }
+      ]
+    },
+    {
+      "id": "t-63",
+      "subject": "Feature request: dark mode #63",
+      "description": "Detailed description of the issue goes here. This is sample seed data for the backend.",
+      "status": "open",
+      "priority": "low",
+      "createdAt": "2026-07-06T20:35:26.246Z",
+      "authorId": "u-17",
+      "authorName": "Ali Ghasemi",
+      "messages": [
+        {
+          "id": "m-63-1",
+          "authorId": "u-17",
+          "authorName": "Ali Ghasemi",
+          "body": "This is the original ticket message describing the problem.",
+          "createdAt": "2026-07-06T20:35:26.246Z"
+        }
+      ]
+    }
+  ]
+}

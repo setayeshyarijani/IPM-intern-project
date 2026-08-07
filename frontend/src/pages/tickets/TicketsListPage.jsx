@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { Button, Tag, Typography, Space, Dropdown, message, Popconfirm, Tooltip } from 'antd';
+import { useCallback, useMemo, useState } from 'react';
+import { Button, Tag, Typography, Space, Dropdown, message, Popconfirm, Tooltip, Select } from 'antd';
 import { 
   PlusOutlined, 
   EditOutlined, 
@@ -15,9 +15,10 @@ import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import DataTable from '../../components/DataTable';
-import { apiListTickets, apiDeleteTicket } from '../../mock/api';
+import { apiListTickets, apiDeleteTicket } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 import Ltr from '../../components/Ltr';
+import { formatCalendarDate } from '../../utils/date';
 
 dayjs.extend(relativeTime);
 
@@ -40,23 +41,66 @@ const priorityColor = {
 };
 
 export default function TicketsListPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const isPersian = i18n.language === 'fa';
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [totalTickets, setTotalTickets] = useState(0);
+  const [statusFilter, setStatusFilter] = useState();
+  const [priorityFilter, setPriorityFilter] = useState();
+
+  const exportRows = useMemo(
+    () => dataSource.map((ticket) => ({
+      id: ticket.id,
+      subject: ticket.subject,
+      authorName: ticket.authorName,
+      status: ticket.status,
+      priority: ticket.priority,
+      createdAt: formatCalendarDate(ticket.createdAt, isPersian ? 'fa' : 'en'),
+    })),
+    [dataSource]
+  );
 
   const fetchPage = useCallback(
     async (params) => {
       const result = await apiListTickets(
-        params, 
+        {
+          ...params,
+          status: statusFilter,
+          priority: priorityFilter,
+        }, 
         user.role === 'admin' ? {} : { onlyUserId: user.id }
       );
-      setDataSource(result.data || []);
+      setDataSource(result.items || []);
+      setTotalTickets(result.total || 0);
       return result;
     },
-    [user]
+    [user, statusFilter, priorityFilter]
   );
+
+  const handleExportCsv = () => {
+    const headers = ['ID', 'Subject', 'Author', 'Status', 'Priority', 'Created At'];
+    const rows = exportRows.map((row) => [row.id, row.subject, row.authorName || '-', row.status, row.priority, row.createdAt]);
+    const csv = [headers, ...rows]
+      .map((row) => row.map((cell) => `"${String(cell).replaceAll('"', '""')}"`).join(','))
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `tickets-page-${Date.now()}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+    message.success(t('tickets.exportSuccess', 'CSV exported successfully'));
+  };
+
+  const handleResetFilters = () => {
+    setStatusFilter(undefined);
+    setPriorityFilter(undefined);
+  };
 
   // حذف تیکت
   const handleDelete = async (record) => {
@@ -242,7 +286,7 @@ export default function TicketsListPage() {
       responsive: ['lg'],
       render: (val) => (
         <Space direction="vertical" size={0}>
-          <Ltr>{dayjs(val).format('YYYY-MM-DD HH:mm')}</Ltr>
+          <Ltr>{formatCalendarDate(val, isPersian ? 'fa' : 'en')}</Ltr>
           <Typography.Text type="secondary" style={{ fontSize: 11 }}>
             {dayjs(val).fromNow()}
           </Typography.Text>
@@ -267,7 +311,7 @@ export default function TicketsListPage() {
             {t('tickets.title')}
           </Typography.Title>
           <Typography.Text type="secondary">
-            {t('tickets.totalTickets', { count: dataSource.length })}
+            {t('tickets.totalTickets', { count: totalTickets })}
           </Typography.Text>
         </div>
         
@@ -286,11 +330,45 @@ export default function TicketsListPage() {
         </Button>
       </div>
 
+      <Space wrap style={{ marginBottom: 16 }}>
+        <Select
+          allowClear
+          placeholder={t('tickets.status')}
+          value={statusFilter}
+          onChange={setStatusFilter}
+          style={{ width: 160 }}
+          options={[
+            { value: 'open', label: t('tickets.open') },
+            { value: 'inProgress', label: t('tickets.inProgress') },
+            { value: 'closed', label: t('tickets.closed') },
+          ]}
+        />
+        <Select
+          allowClear
+          placeholder={t('tickets.priority')}
+          value={priorityFilter}
+          onChange={setPriorityFilter}
+          style={{ width: 160 }}
+          options={[
+            { value: 'low', label: t('tickets.low') },
+            { value: 'medium', label: t('tickets.medium') },
+            { value: 'high', label: t('tickets.high') },
+          ]}
+        />
+        <Button onClick={handleResetFilters}>
+          {t('common.clear', isPersian ? 'پاک کردن فیلترها' : 'Reset filters')}
+        </Button>
+        <Button onClick={handleExportCsv}>
+          {isPersian ? 'خروجی CSV' : 'Export CSV'}
+        </Button>
+      </Space>
+
       <DataTable
         fetchPage={fetchPage}
         columns={columns}
         rowKey="id"
         loading={loading}
+        reloadKey={`${statusFilter || 'all'}-${priorityFilter || 'all'}`}
         scroll={{ x: 800 }}
         onRow={(record) => ({
           className: 'table-row-hover',

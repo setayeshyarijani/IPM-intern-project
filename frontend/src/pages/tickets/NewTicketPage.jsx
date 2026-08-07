@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, Form, Input, Select, Button, Typography, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { apiCreateTicket } from '../../mock/api';
+import { apiCreateTicket } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 
 export default function NewTicketPage() {

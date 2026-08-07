@@ -29,51 +29,16 @@ import {
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { apiListTickets } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import { useThemeMode } from '../context/ThemeModeContext';
 import Ltr from '../components/Ltr';
+import { formatCalendarDate } from '../utils/date';
 import { useNavigate } from 'react-router-dom';
-
-import 'dayjs/locale/fa';
-import 'dayjs/locale/en';
 
 dayjs.extend(relativeTime);
 
 const { Title, Text } = Typography;
-
-// API Mock
-const apiListTickets = (params, filter) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        items: [
-          { 
-            id: 1, 
-            subject: 'مشکل در ورود به سیستم', 
-            status: 'open', 
-            createdAt: new Date().toISOString(),
-            priority: 'high'
-          },
-          { 
-            id: 2, 
-            subject: 'درخواست تغییر رمز عبور', 
-            status: 'inProgress', 
-            createdAt: new Date(Date.now() - 86400000).toISOString(),
-            priority: 'medium'
-          },
-          { 
-            id: 3, 
-            subject: 'مشکل در آپلود فایل', 
-            status: 'resolved', 
-            createdAt: new Date(Date.now() - 172800000).toISOString(),
-            priority: 'low'
-          },
-        ],
-        total: 3,
-      });
-    }, 500);
-  });
-};
 
 export default function Dashboard() {
   const { i18n } = useTranslation();
@@ -92,15 +57,6 @@ export default function Dashboard() {
 
   // تشخیص زبان فارسی یا انگلیسی
   const isPersian = i18n.language === 'fa';
-
-  // تنظیم locale dayjs بر اساس زبان فعلی
-  useEffect(() => {
-    if (isPersian) {
-      dayjs.locale('fa');
-    } else {
-      dayjs.locale('en');
-    }
-  }, [i18n.language, isPersian]);
 
   useEffect(() => {
     let isMounted = true;
@@ -121,7 +77,7 @@ export default function Dashboard() {
           setRecent(res.items);
           
           const statsData = {
-            total: res.items.length,
+            total: res.total ?? res.items.length,
             open: res.items.filter(item => item.status === 'open').length,
             inProgress: res.items.filter(item => item.status === 'inProgress').length,
             resolved: res.items.filter(item => item.status === 'resolved').length,
@@ -271,11 +227,10 @@ export default function Dashboard() {
 
   // دریافت تاریخ
   const getFormattedDate = () => {
-    const now = dayjs();
-    if (isPersian) {
-      return now.locale('fa').format('dddd، D MMMM YYYY');
-    }
-    return now.locale('en').format('dddd, D MMMM YYYY');
+    return formatCalendarDate(new Date(), isPersian ? 'fa' : 'en', {
+      withTime: false,
+      weekday: true,
+    });
   };
 
   return (
@@ -450,10 +405,7 @@ export default function Dashboard() {
               const status = statusConfig[item.status] || statusConfig.open;
               // فرمت تاریخ بر اساس زبان
               const formatDate = (date) => {
-                if (isPersian) {
-                  return dayjs(date).locale('fa').format('YYYY/MM/DD HH:mm');
-                }
-                return dayjs(date).locale('en').format('YYYY/MM/DD HH:mm');
+                return formatCalendarDate(date, isPersian ? 'fa' : 'en');
               };
               const getRelativeTime = (date) => {
                 if (isPersian) {

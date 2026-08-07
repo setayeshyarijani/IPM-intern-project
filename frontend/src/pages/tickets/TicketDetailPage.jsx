@@ -36,9 +36,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { apiGetTicket, apiReplyTicket, apiSetTicketStatus, apiDeleteTicket } from '../../mock/api';
+import { apiGetTicket, apiReplyTicket, apiSetTicketStatus, apiDeleteTicket } from '../../api/client';
 import { useAuth } from '../../context/AuthContext';
 import Ltr from '../../components/Ltr';
+import { formatCalendarDate } from '../../utils/date';
 
 dayjs.extend(relativeTime);
 
@@ -73,7 +74,8 @@ const priorityLabel = {
 };
 
 export default function TicketDetailPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isPersian = i18n.language === 'fa';
   const { user } = useAuth();
   const { ticketId } = useParams();
   const navigate = useNavigate();
@@ -262,7 +264,7 @@ export default function TicketDetailPage() {
           </Descriptions.Item>
           
           <Descriptions.Item label={<ClockCircleOutlined />} labelStyle={{ fontWeight: 600 }}>
-            <Ltr>{dayjs(ticket.createdAt).format('YYYY/MM/DD HH:mm')}</Ltr>
+            <Ltr>{formatCalendarDate(ticket.createdAt, isPersian ? 'fa' : 'en', { withTime: true })}</Ltr>
             <Typography.Text type="secondary" style={{ fontSize: 12, marginLeft: 8 }}>
               ({dayjs(ticket.createdAt).fromNow()})
             </Typography.Text>
@@ -347,7 +349,7 @@ export default function TicketDetailPage() {
                 }
                 description={
                   <Ltr>
-                    {dayjs(msg.createdAt).format('YYYY/MM/DD HH:mm')}
+                    {formatCalendarDate(msg.createdAt, isPersian ? 'fa' : 'en', { withTime: true })}
                     <Typography.Text type="secondary" style={{ fontSize: 11, marginLeft: 8 }}>
                       ({dayjs(msg.createdAt).fromNow()})
                     </Typography.Text>

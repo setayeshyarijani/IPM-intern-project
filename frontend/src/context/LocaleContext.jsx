@@ -3,6 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { ConfigProvider, theme as antdTheme } from 'antd';
 import faIR from 'antd/locale/fa_IR';
 import enUS from 'antd/locale/en_US';
+import dayjs from 'dayjs';
+import 'dayjs/locale/fa';
+import 'dayjs/locale/en';
 import { useThemeMode } from './ThemeModeContext';
 
 const LocaleContext = createContext(null);
@@ -19,6 +22,10 @@ export function LocaleProvider({ children }) {
     document.documentElement.dir = dir;
     document.documentElement.lang = lang;
   }, [dir, lang]);
+
+  useEffect(() => {
+    dayjs.locale(lang === 'fa' ? 'fa' : 'en');
+  }, [lang]);
 
   function setLang(next) {
     i18n.changeLanguage(next);
